@@ -91,7 +91,7 @@ class MetaModelFilterSettingCheckbox extends MetaModelFilterSetting
 		$objAttribute = $this->getMetaModel()->getAttributeById($this->get('attr_id'));
 		$arrLabel = array(
 			($this->get('label') ? $this->get('label') : $objAttribute->getName()),
-			'GET: '.$this->get('urlparam')
+			(TL_MODE=='BE' ? 'GET: '.$this->get('urlparam') : $GLOBALS['TL_LANG']['MSC']['yes'])
 		);
 
 		return array(
