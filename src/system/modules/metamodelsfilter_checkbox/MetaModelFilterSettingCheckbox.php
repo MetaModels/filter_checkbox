@@ -104,7 +104,6 @@ class MetaModelFilterSettingCheckbox extends MetaModelFilterSettingSimpleLookup
 				1 => $GLOBALS['TL_LANG']['MSC']['yes']
 			);
 		}
-var_dump($this->prepareFrontendFilterWidget($arrWidget, $arrFilterUrl, $arrJumpTo, $blnAutoSubmit));
 
 		return array
 		(
