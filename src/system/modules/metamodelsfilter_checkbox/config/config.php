@@ -23,14 +23,14 @@ if (!defined('TL_ROOT'))
 /**
  * Frontend filter
  */
- 
+
 // y/n checkbox
 $GLOBALS['METAMODELS']['filters']['checkbox'] = array
 (
 	'class' => 'MetaModelFilterSettingCheckbox',
 	'attr_filter' => array('checkbox'),
-	'image' => 'system/modules/metamodels_frontendfilter/html/filter_frontend.png',
-	'info_callback' => array('MetaModelFrontendFilterBackend','infoCallback'),
+	'image' => 'system/modules/metamodels/html/filter_frontend.png',
+	'info_callback' => array('TableMetaModelFilterSetting','infoCallback'),
 );
 
 ?>

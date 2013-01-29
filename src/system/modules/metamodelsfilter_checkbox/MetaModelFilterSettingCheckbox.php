@@ -26,85 +26,89 @@ if (!defined('TL_ROOT'))
  * @subpackage FrontendFilter
  * @author     Christian de la Haye <service@delahaye.de>
  */
-class MetaModelFilterSettingCheckbox extends MetaModelFilterSetting
+class MetaModelFilterSettingCheckbox extends MetaModelFilterSettingSimpleLookup
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function getParamName()
-	{
-		if ($this->get('urlparam'))
-		{
-			return $this->get('urlparam');
-		}
-
-		$objAttribute = $this->getMetaModel()->getAttributeById($this->get('attr_id'));
-		if ($objAttribute)
-		{
-			return $objAttribute->getColName();
-		}
-	}
-
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function prepareRules(IMetaModelFilter $objFilter, $arrFilterUrl)
-	{
-		$objMetaModel = $this->getMetaModel();
-		$objAttribute = $objMetaModel->getAttributeById($this->get('attr_id'));
-		$strParamName = $this->getParamName();
-		$strParamValue = $arrFilterUrl[$strParamName];
-
-		if ($objAttribute && $strParamName && $strParamValue)
-		{
-			$objQuery = Database::getInstance()->prepare(sprintf(
-				'SELECT id FROM %s WHERE %s=? ',
-				$this->getMetaModel()->getTableName(),
-				$objAttribute->getColName()
-				))
-				->execute($strParamValue);
-
-			$arrIds = $objQuery->fetchEach('id');
-			$objFilter->addFilterRule(new MetaModelFilterRuleStaticIdList($arrIds));
-			return;
-		}
-
-		$objFilter->addFilterRule(new MetaModelFilterRuleStaticIdList(NULL));
-	}
-
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getParameters()
-	{
-		return ($strParamName = $this->getParamName()) ? array($strParamName) : array();
-	}
-
-
 	/**
 	 * {@inheritdoc}
 	 */
 	public function getParameterDCA()
 	{
+		// if defined as static, return nothing as not to be manipulated via editors.
+		if (!$this->get('predef_param'))
+		{
+			return array();
+		}
+
 		$objAttribute = $this->getMetaModel()->getAttributeById($this->get('attr_id'));
-		$arrLabel = array(
-			($this->get('label') ? $this->get('label') : $objAttribute->getName()),
-			(TL_MODE=='BE' ? 'GET: '.$this->get('urlparam') : $GLOBALS['TL_LANG']['MSC']['yes'])
-		);
 
 		return array(
 			$this->getParamName() => array
 			(
-				'label'     => $arrLabel,
+				'label'     => array(
+					($this->get('label') ? $this->get('label') : $objAttribute->getName()),
+					'GET: '.$this->get('urlparam')
+				),
 				'inputType' => 'checkbox',
-				'eval'      => array(
-					'urlparam' => $this->get('urlparam'),
-					'yesfield' => $this->get('yesfield'),
-					'template' => $this->get('template')
-					)
 			)
+		);
+	}
+
+	/**
+	 * Overrides the parent implementation to always return true, as this setting is always optional.
+	 *
+	 * @return bool true if all matches shall be returned, false otherwise.
+	 */
+	public function allowEmpty()
+	{
+		return true;
+	}
+
+	/**
+	 * Overrides the parent implementation to always return true, as this setting is always available for FE filtering.
+	 *
+	 * @return bool true as this setting is always available.
+	 */
+	public function enableFEFilterWidget()
+	{
+		return true;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getParameterFilterWidgets($arrIds, $arrFilterUrl, $arrJumpTo, $blnAutoSubmit)
+	{
+
+		$objAttribute = $this->getMetaModel()->getAttributeById($this->get('attr_id'));
+
+		$arrWidget = array
+		(
+			'label'     => array(
+				($this->get('label') ? $this->get('label') : $objAttribute->getName()),
+				$GLOBALS['TL_LANG']['MSC']['yes']
+				),
+			'inputType' => 'checkbox',
+			'eval'      => array(
+				'colname'            => $objAttribute->getColname(),
+				'urlparam'           => $this->getParamName(),
+				'yesfield'           => $this->get('yesfield'),
+				'template'           => $this->get('template'),
+			)
+		);
+
+		if (false && !$this->get('yesfield'))
+		{
+			$arrWidget['options'] = array
+			(
+				0 => $GLOBALS['TL_LANG']['MSC']['no'],
+				1 => $GLOBALS['TL_LANG']['MSC']['yes']
+			);
+		}
+var_dump($this->prepareFrontendFilterWidget($arrWidget, $arrFilterUrl, $arrJumpTo, $blnAutoSubmit));
+
+		return array
+		(
+			$this->getParamName() => $this->prepareFrontendFilterWidget($arrWidget, $arrFilterUrl, $arrJumpTo, $blnAutoSubmit)
 		);
 	}
 }
