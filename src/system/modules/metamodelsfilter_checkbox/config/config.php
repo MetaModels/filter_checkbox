@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The MetaModels extension allows the creation of multiple collections of custom items,
  * each with its own unique set of selectable attributes, with attribute extendability.
@@ -7,18 +8,12 @@
  *
  * PHP version 5
  * @package    MetaModels
- * @subpackage FrontendFilter
+ * @subpackage FilterCheckbox
  * @author     Christian de la Haye <service@delahaye.de>
  * @copyright  The MetaModels team.
  * @license    LGPL.
  * @filesource
  */
-if (!defined('TL_ROOT'))
-{
-	die('You cannot access this file directly!');
-}
-
-
 
 /**
  * Frontend filter
@@ -29,8 +24,6 @@ $GLOBALS['METAMODELS']['filters']['checkbox'] = array
 (
 	'class' => 'MetaModelFilterSettingCheckbox',
 	'attr_filter' => array('checkbox'),
-	'image' => 'system/modules/metamodels/html/filter_frontend.png',
+	'image' => 'system/modules/metamodelsfilter_checkbox/html/filter_checkbox.png',
 	'info_callback' => array('TableMetaModelFilterSetting','infoCallback'),
 );
-
-?>
