@@ -24,4 +24,13 @@ $GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['typenames']['checkbox'] = 'Ye
 /**
  * fields
  */
-$GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['yesfield']     = array('Yes instead of attribute name', 'Show yes instead of attribute name and provide attribute name as a headline.');
+$GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['ynfield']     = array('Yes/no instead of attribute name', 'Show yes/no instead of attribute name and provide attribute name as a headline.');
+$GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['ynmode']      = array('Modus', 'Ja/Nein auswählbar machen');
+
+
+/**
+ * labels
+ */
+$GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['yes']          = 'Checkbox yes';
+$GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['no']           = 'Checkbox no';
+$GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['radio']        = 'Radio selection';
