@@ -30,6 +30,7 @@ class MetaModelFilterSettingCheckbox extends MetaModelFilterSettingSimpleLookup
 	public function prepareRules(IMetaModelFilter $objFilter, $arrFilterUrl)
 	{
 		$objMetaModel = $this->getMetaModel();
+		$arrLanguages = ($objMetaModel->isTranslated() && $this->get('all_langs')) ? $objMetaModel->getAvailableLanguages() : array($objMetaModel->getActiveLanguage());
 		$objAttribute = $objMetaModel->getAttributeById($this->get('attr_id'));
 
 		$strParamName = $this->getParamName();
@@ -37,24 +38,17 @@ class MetaModelFilterSettingCheckbox extends MetaModelFilterSettingSimpleLookup
 		// if is a checkbox defined as "no", 1 has to become -1 like with radio fields
 		$arrFilterUrl[$strParamName] = ($arrFilterUrl[$strParamName]=='1' && $this->get('ynmode')=='no' ? '-1' : $arrFilterUrl[$strParamName]);
 
-		// param -1 has to be '' meaning 'really empty'
-		$strParamValue = ($arrFilterUrl[$strParamName]=='-1' ? '' : $arrFilterUrl[$strParamName]);
-
-		if ($objAttribute && $strParamName && ($strParamValue || $arrFilterUrl[$strParamName]=='-1'))
+		if ($objAttribute && $strParamName && $arrFilterUrl[$strParamName])
 		{
-			$objFilter->addFilterRule(new MetaModelFilterRuleSimpleQuery(
-				sprintf(
-				'SELECT id FROM %s WHERE %s LIKE ?',
-				$this->getMetaModel()->getTableName(),
-				$objAttribute->getColName()
-				),
-				array($strParamValue)
-				));
+			// param -1 has to be '' meaning 'really empty'
+			$arrFilterUrl[$strParamName] = ($arrFilterUrl[$strParamName]=='-1' ? '' : $arrFilterUrl[$strParamName]);
+
+			$objFilterRule = new MetaModelFilterRuleSearchAttribute($objAttribute, $arrFilterUrl, $arrLanguages);
+			$objFilter->addFilterRule($objFilterRule);
 			return;
 		}
 
 		$objFilter->addFilterRule(new MetaModelFilterRuleStaticIdList(NULL));
-
 	}
 
 	/**
