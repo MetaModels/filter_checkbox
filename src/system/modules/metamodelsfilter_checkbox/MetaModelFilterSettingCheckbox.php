@@ -27,6 +27,39 @@ class MetaModelFilterSettingCheckbox extends MetaModelFilterSettingSimpleLookup
 	/**
 	 * {@inheritdoc}
 	 */
+	public function prepareRules(IMetaModelFilter $objFilter, $arrFilterUrl)
+	{
+		$objMetaModel = $this->getMetaModel();
+		$objAttribute = $objMetaModel->getAttributeById($this->get('attr_id'));
+
+		$strParamName = $this->getParamName();
+
+		// if is a checkbox defined as "no", 1 has to become -1 like with radio fields
+		$arrFilterUrl[$strParamName] = ($arrFilterUrl[$strParamName]=='1' && $this->get('ynmode')=='no' ? '-1' : $arrFilterUrl[$strParamName]);
+
+		// param -1 has to be '' meaning 'really empty'
+		$strParamValue = ($arrFilterUrl[$strParamName]=='-1' ? '' : $arrFilterUrl[$strParamName]);
+
+		if ($objAttribute && $strParamName && ($strParamValue || $arrFilterUrl[$strParamName]=='-1'))
+		{
+			$objFilter->addFilterRule(new MetaModelFilterRuleSimpleQuery(
+				sprintf(
+				'SELECT id FROM %s WHERE %s LIKE ?',
+				$this->getMetaModel()->getTableName(),
+				$objAttribute->getColName()
+				),
+				array($strParamValue)
+				));
+			return;
+		}
+
+		$objFilter->addFilterRule(new MetaModelFilterRuleStaticIdList(NULL));
+
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getParameterDCA()
 	{
 		// if defined as static, return nothing as not to be manipulated via editors.
@@ -79,25 +112,39 @@ class MetaModelFilterSettingCheckbox extends MetaModelFilterSettingSimpleLookup
 
 		$arrWidget = array
 		(
-			'label'     => array(
-				($this->get('label') ? $this->get('label') : $objAttribute->getName()),
-				$GLOBALS['TL_LANG']['MSC']['yes']
+			'label'     => ($this->get('ynmode')=='radio' || $this->get('ynfield') ?
+					array(
+					($this->get('label') ? $this->get('label') : $objAttribute->getName()),
+					($this->get('ynmode')=='yes' ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'])
+					)
+				:
+					array(
+					($this->get('label') ? $this->get('label') : $objAttribute->getName()),
+					($this->get('ynmode')=='no' ? sprintf($GLOBALS['TL_LANG']['MSC']['extended_no'], ($this->get('label') ? $this->get('label') : $objAttribute->getName())):($this->get('label') ? $this->get('label') : $objAttribute->getName()))
+					)
 				),
-			'inputType' => 'checkbox',
+			'inputType' => ($this->get('ynmode')=='radio' ? 'radio' : 'checkbox'),
 			'eval'      => array(
 				'colname'            => $objAttribute->getColname(),
 				'urlparam'           => $this->getParamName(),
-				'yesfield'           => $this->get('yesfield'),
+				'ynmode'             => $this->get('ynmode'),
+				'ynfield'            => $this->get('ynfield'),
 				'template'           => $this->get('template'),
+				'includeBlankOption' => ($this->get('ynmode')=='radio' && $this->get('blankoption') ? true : false),
 			)
 		);
 
-		if (false && !$this->get('yesfield'))
+		if ($this->get('ynmode')=='radio')
 		{
 			$arrWidget['options'] = array
 			(
-				0 => $GLOBALS['TL_LANG']['MSC']['no'],
-				1 => $GLOBALS['TL_LANG']['MSC']['yes']
+				0 => '-1',
+				1 => '1'
+			);
+			$arrWidget['reference'] = array
+			(
+				'-1' => $GLOBALS['TL_LANG']['MSC']['no'],
+				'1' => $GLOBALS['TL_LANG']['MSC']['yes']
 			);
 		}
 
