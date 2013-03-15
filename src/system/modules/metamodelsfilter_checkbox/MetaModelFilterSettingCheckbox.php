@@ -43,7 +43,7 @@ class MetaModelFilterSettingCheckbox extends MetaModelFilterSettingSimpleLookup
 			// param -1 has to be '' meaning 'really empty'
 			$arrFilterUrl[$strParamName] = ($arrFilterUrl[$strParamName]=='-1' ? '' : $arrFilterUrl[$strParamName]);
 
-			$objFilterRule = new MetaModelFilterRuleSearchAttribute($objAttribute, $arrFilterUrl, $arrLanguages);
+			$objFilterRule = new MetaModelFilterRuleSearchAttribute($objAttribute, $arrFilterUrl[$strParamName], $arrLanguages);
 			$objFilter->addFilterRule($objFilterRule);
 			return;
 		}
