@@ -40,7 +40,7 @@
 	"require":{
 		"php":">=5.3",
 		"contao/core":"~2.11",
-		"contao-community-alliance/composer-installer": "dev-master",
+		"contao-community-alliance/composer-installer": "*",
 		"metamodels/core":"~1"
 	},
 	"require-dev": {
@@ -58,6 +58,9 @@
 				"languages_cto": "src/system/modules/metamodelsfilter_checkbox/languages",
 				"languages_tx": ".tx"
 			}
+		},
+		"branch-alias": {
+			"dev-master: "1.0.x-dev"
 		}
 	}
 }
