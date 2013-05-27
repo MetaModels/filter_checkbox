@@ -99,7 +99,7 @@ class MetaModelFilterSettingCheckbox extends MetaModelFilterSettingSimpleLookup
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getParameterFilterWidgets($arrIds, $arrFilterUrl, $arrJumpTo, $blnAutoSubmit, $blnHideClearFilter)
+	public function getParameterFilterWidgets($arrIds, $arrFilterUrl, $arrJumpTo, MetaModelFrontendFilterOptions $objFrontendFilterOptions)
 	{
 
 		$objAttribute = $this->getMetaModel()->getAttributeById($this->get('attr_id'));
@@ -146,7 +146,7 @@ class MetaModelFilterSettingCheckbox extends MetaModelFilterSettingSimpleLookup
 		
 		return array
 		(
-			$this->getParamName() => $this->prepareFrontendFilterWidget($arrWidget, $arrFilterUrl, $arrJumpTo, $blnAutoSubmit)
+			$this->getParamName() => $this->prepareFrontendFilterWidget($arrWidget, $arrFilterUrl, $arrJumpTo, $objFrontendFilterOptions)
 		);
 	}
 }
