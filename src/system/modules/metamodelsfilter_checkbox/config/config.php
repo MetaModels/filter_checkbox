@@ -18,12 +18,7 @@
 /**
  * Frontend filter
  */
-
-// y/n checkbox
-$GLOBALS['METAMODELS']['filters']['checkbox'] = array
-(
-	'class' => 'MetaModelFilterSettingCheckbox',
-	'attr_filter' => array('checkbox'),
-	'image' => 'system/modules/metamodelsfilter_checkbox/html/filter_checkbox.png',
-	'info_callback' => array('TableMetaModelFilterSetting','infoCallback'),
-);
+$GLOBALS['METAMODELS']['filters']['checkbox']['class'] = 'MetaModelFilterSettingCheckbox';
+$GLOBALS['METAMODELS']['filters']['checkbox']['image'] = 'system/modules/metamodelsfilter_checkbox/html/filter_checkbox.png';
+$GLOBALS['METAMODELS']['filters']['checkbox']['info_callback'] = array('TableMetaModelFilterSetting', 'infoCallback');
+$GLOBALS['METAMODELS']['filters']['checkbox']['attr_filter'][] = 'checkbox';
