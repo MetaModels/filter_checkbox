@@ -21,5 +21,6 @@
  */
 ClassLoader::addClasses(array
 (
-	'MetaModelFilterSettingCheckbox'         => 'system/modules/metamodelsfilter_checkbox/MetaModelFilterSettingCheckbox.php',
+	'MetaModels\Filter\Setting\Checkbox' => 'system/modules/metamodelsfilter_checkbox/MetaModels/Filter/Setting/Checkbox.php',
+	'MetaModelFilterSettingCheckbox'     => 'system/modules/metamodelsfilter_checkbox/deprecated/MetaModelFilterSettingCheckbox.php',
 ));

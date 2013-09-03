@@ -18,7 +18,11 @@
 /**
  * Frontend filter
  */
-$GLOBALS['METAMODELS']['filters']['checkbox']['class'] = 'MetaModelFilterSettingCheckbox';
-$GLOBALS['METAMODELS']['filters']['checkbox']['image'] = 'system/modules/metamodelsfilter_checkbox/html/filter_checkbox.png';
-$GLOBALS['METAMODELS']['filters']['checkbox']['info_callback'] = array('TableMetaModelFilterSetting', 'infoCallback');
+$GLOBALS['METAMODELS']['filters']['checkbox']['class']         = 'MetaModels\Filter\Setting\Checkbox';
+$GLOBALS['METAMODELS']['filters']['checkbox']['image']         = 'system/modules/metamodelsfilter_checkbox/html/filter_checkbox.png';
+$GLOBALS['METAMODELS']['filters']['checkbox']['info_callback'] = array('MetaModels\Dca\Filter', 'infoCallback');
 $GLOBALS['METAMODELS']['filters']['checkbox']['attr_filter'][] = 'checkbox';
+
+// non composerized Contao 2.X autoload support.
+$GLOBALS['MM_AUTOLOAD'][] = dirname(__DIR__);
+$GLOBALS['MM_AUTOLOAD'][] = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'deprecated';

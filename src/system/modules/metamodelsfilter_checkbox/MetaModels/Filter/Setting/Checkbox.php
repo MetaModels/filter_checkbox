@@ -15,6 +15,13 @@
  * @filesource
  */
 
+namespace MetaModels\Filter\Setting;
+
+use MetaModels\Filter\IFilter;
+use MetaModels\Filter\Rules\SearchAttribute;
+use MetaModels\Filter\Rules\StaticIdList;
+use MetaModels\FrontendIntegration\FrontendFilterOptions;
+
 /**
  * Filter "checkbox" for FE-filtering, based on filters by the meta models team.
  *
@@ -22,12 +29,12 @@
  * @subpackage FilterCheckbox
  * @author     Christian de la Haye <service@delahaye.de>
  */
-class MetaModelFilterSettingCheckbox extends MetaModelFilterSettingSimpleLookup
+class Checkbox extends SimpleLookup
 {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function prepareRules(IMetaModelFilter $objFilter, $arrFilterUrl)
+	public function prepareRules(IFilter $objFilter, $arrFilterUrl)
 	{
 		$objMetaModel = $this->getMetaModel();
 		$arrLanguages = ($objMetaModel->isTranslated() && $this->get('all_langs')) ? $objMetaModel->getAvailableLanguages() : array($objMetaModel->getActiveLanguage());
@@ -43,12 +50,12 @@ class MetaModelFilterSettingCheckbox extends MetaModelFilterSettingSimpleLookup
 			// param -1 has to be '' meaning 'really empty'
 			$arrFilterUrl[$strParamName] = ($arrFilterUrl[$strParamName]=='-1' ? '' : $arrFilterUrl[$strParamName]);
 
-			$objFilterRule = new MetaModelFilterRuleSearchAttribute($objAttribute, $arrFilterUrl[$strParamName], $arrLanguages);
+			$objFilterRule = new SearchAttribute($objAttribute, $arrFilterUrl[$strParamName], $arrLanguages);
 			$objFilter->addFilterRule($objFilterRule);
 			return;
 		}
 
-		$objFilter->addFilterRule(new MetaModelFilterRuleStaticIdList(NULL));
+		$objFilter->addFilterRule(new StaticIdList(NULL));
 	}
 
 	/**
@@ -99,7 +106,7 @@ class MetaModelFilterSettingCheckbox extends MetaModelFilterSettingSimpleLookup
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getParameterFilterWidgets($arrIds, $arrFilterUrl, $arrJumpTo, MetaModelFrontendFilterOptions $objFrontendFilterOptions)
+	public function getParameterFilterWidgets($arrIds, $arrFilterUrl, $arrJumpTo, FrontendFilterOptions $objFrontendFilterOptions)
 	{
 
 		$objAttribute = $this->getMetaModel()->getAttributeById($this->get('attr_id'));
@@ -107,16 +114,16 @@ class MetaModelFilterSettingCheckbox extends MetaModelFilterSettingSimpleLookup
 		$arrWidget = array
 		(
 			'label'     => ($this->get('ynmode')=='radio' || $this->get('ynfield') ?
-					array(
+				array(
 					($this->get('label') ? $this->get('label') : $objAttribute->getName()),
 					($this->get('ynmode')=='yes' ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'])
-					)
+				)
 				:
-					array(
+				array(
 					($this->get('label') ? $this->get('label') : $objAttribute->getName()),
 					($this->get('ynmode')=='no' ? sprintf($GLOBALS['TL_LANG']['MSC']['extended_no'], ($this->get('label') ? $this->get('label') : $objAttribute->getName())):($this->get('label') ? $this->get('label') : $objAttribute->getName()))
-					)
-				),
+				)
+			),
 			'inputType' => ($this->get('ynmode')=='radio' ? 'radio' : 'checkbox'),
 			'eval'      => array(
 				'colname'            => $objAttribute->getColname(),
@@ -143,7 +150,7 @@ class MetaModelFilterSettingCheckbox extends MetaModelFilterSettingSimpleLookup
 		}
 
 		$GLOBALS['MM_FILTER_PARAMS'][] = $this->getParamName();
-		
+
 		return array
 		(
 			$this->getParamName() => $this->prepareFrontendFilterWidget($arrWidget, $arrFilterUrl, $arrJumpTo, $objFrontendFilterOptions)
