@@ -16,5 +16,5 @@
 
 CREATE TABLE `tl_metamodel_filtersetting` (
   `ynfield` char(1) NOT NULL default '1',
-  `ynmode` varchar(8) NOT NULL default 'yes',
+  `ynmode` varchar(8) NOT NULL default 'yes'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
