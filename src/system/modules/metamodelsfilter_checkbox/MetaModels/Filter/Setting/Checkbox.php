@@ -37,25 +37,28 @@ class Checkbox extends SimpleLookup
 	public function prepareRules(IFilter $objFilter, $arrFilterUrl)
 	{
 		$objMetaModel = $this->getMetaModel();
-		$arrLanguages = ($objMetaModel->isTranslated() && $this->get('all_langs')) ? $objMetaModel->getAvailableLanguages() : array($objMetaModel->getActiveLanguage());
+		$arrLanguages = ($objMetaModel->isTranslated() && $this->get('all_langs'))
+			? $objMetaModel->getAvailableLanguages()
+			: array($objMetaModel->getActiveLanguage());
 		$objAttribute = $objMetaModel->getAttributeById($this->get('attr_id'));
 
 		$strParamName = $this->getParamName();
 
-		// if is a checkbox defined as "no", 1 has to become -1 like with radio fields
-		$arrFilterUrl[$strParamName] = ($arrFilterUrl[$strParamName]=='1' && $this->get('ynmode')=='no' ? '-1' : $arrFilterUrl[$strParamName]);
+		// If is a checkbox defined as "no", 1 has to become -1 like with radio fields.
+		$arrFilterUrl[$strParamName] =
+			($arrFilterUrl[$strParamName] == '1' && $this->get('ynmode') == 'no' ? '-1' : $arrFilterUrl[$strParamName]);
 
 		if ($objAttribute && $strParamName && $arrFilterUrl[$strParamName])
 		{
-			// param -1 has to be '' meaning 'really empty'
-			$arrFilterUrl[$strParamName] = ($arrFilterUrl[$strParamName]=='-1' ? '' : $arrFilterUrl[$strParamName]);
+			// Param -1 has to be '' meaning 'really empty'.
+			$arrFilterUrl[$strParamName] = ($arrFilterUrl[$strParamName] == '-1' ? '' : $arrFilterUrl[$strParamName]);
 
 			$objFilterRule = new SearchAttribute($objAttribute, $arrFilterUrl[$strParamName], $arrLanguages);
 			$objFilter->addFilterRule($objFilterRule);
 			return;
 		}
 
-		$objFilter->addFilterRule(new StaticIdList(NULL));
+		$objFilter->addFilterRule(new StaticIdList(null));
 	}
 
 	/**
@@ -63,7 +66,7 @@ class Checkbox extends SimpleLookup
 	 */
 	public function getParameterDCA()
 	{
-		// if defined as static, return nothing as not to be manipulated via editors.
+		// If defined as static, return nothing as not to be manipulated via editors.
 		if (!$this->get('predef_param'))
 		{
 			return array();
@@ -106,46 +109,60 @@ class Checkbox extends SimpleLookup
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getParameterFilterWidgets($arrIds, $arrFilterUrl, $arrJumpTo, FrontendFilterOptions $objFrontendFilterOptions)
+	public function getParameterFilterWidgets(
+		$arrIds,
+		$arrFilterUrl,
+		$arrJumpTo,
+		FrontendFilterOptions $objFrontendFilterOptions
+	)
 	{
 
 		$objAttribute = $this->getMetaModel()->getAttributeById($this->get('attr_id'));
 
 		$arrWidget = array
 		(
-			'label'     => ($this->get('ynmode')=='radio' || $this->get('ynfield') ?
+			'label'     => ($this->get('ynmode') == 'radio' || $this->get('ynfield') ?
 				array(
-					($this->get('label') ? $this->get('label') : $objAttribute->getName()),
-					($this->get('ynmode')=='yes' ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'])
+					($this->get('label') ?: $objAttribute->getName()),
+					($this->get('ynmode') == 'yes'
+						? $GLOBALS['TL_LANG']['MSC']['yes']
+						: $GLOBALS['TL_LANG']['MSC']['no']
+					)
 				)
 				:
 				array(
-					($this->get('label') ? $this->get('label') : $objAttribute->getName()),
-					($this->get('ynmode')=='no' ? sprintf($GLOBALS['TL_LANG']['MSC']['extended_no'], ($this->get('label') ? $this->get('label') : $objAttribute->getName())):($this->get('label') ? $this->get('label') : $objAttribute->getName()))
+					($this->get('label') ?: $objAttribute->getName()),
+					($this->get('ynmode') == 'no'
+						? sprintf(
+							$GLOBALS['TL_LANG']['MSC']['extended_no'],
+							($this->get('label') ?: $objAttribute->getName())
+						)
+						: ($this->get('label') ?: $objAttribute->getName())
+					)
 				)
 			),
-			'inputType' => ($this->get('ynmode')=='radio' ? 'radio' : 'checkbox'),
+			'inputType' => ($this->get('ynmode') == 'radio' ?: 'checkbox'),
 			'eval'      => array(
 				'colname'            => $objAttribute->getColname(),
 				'urlparam'           => $this->getParamName(),
 				'ynmode'             => $this->get('ynmode'),
 				'ynfield'            => $this->get('ynfield'),
 				'template'           => $this->get('template'),
-				'includeBlankOption' => ($this->get('ynmode')=='radio' && $this->get('blankoption') ? true : false),
+				'includeBlankOption' => ($this->get('ynmode') == 'radio' && $this->get('blankoption') ? true : false),
 			)
 		);
 
-		if ($this->get('ynmode')=='radio')
+		if ($this->get('ynmode') == 'radio')
 		{
-			$arrWidget['options'] = array
+			$arrWidget['options']   = array
 			(
-				0 => '-1',
-				1 => '1'
+				0    => '-1',
+				1    => '1'
 			);
 			$arrWidget['reference'] = array
 			(
 				'-1' => $GLOBALS['TL_LANG']['MSC']['no'],
-				'1' => $GLOBALS['TL_LANG']['MSC']['yes']
+				'1'  => $GLOBALS['TL_LANG']['MSC']['yes']
 			);
 		}
 
@@ -153,7 +170,12 @@ class Checkbox extends SimpleLookup
 
 		return array
 		(
-			$this->getParamName() => $this->prepareFrontendFilterWidget($arrWidget, $arrFilterUrl, $arrJumpTo, $objFrontendFilterOptions)
+			$this->getParamName() => $this->prepareFrontendFilterWidget(
+				$arrWidget,
+				$arrFilterUrl,
+				$arrJumpTo,
+				$objFrontendFilterOptions
+			)
 		);
 	}
 }

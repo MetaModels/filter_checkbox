@@ -19,5 +19,6 @@
  * Frontend filter
  */
 $GLOBALS['METAMODELS']['filters']['checkbox']['class']         = 'MetaModels\Filter\Setting\Checkbox';
-$GLOBALS['METAMODELS']['filters']['checkbox']['image']         = 'system/modules/metamodelsfilter_checkbox/html/filter_checkbox.png';
+$GLOBALS['METAMODELS']['filters']['checkbox']['image']         =
+	'system/modules/metamodelsfilter_checkbox/html/filter_checkbox.png';
 $GLOBALS['METAMODELS']['filters']['checkbox']['attr_filter'][] = 'checkbox';
