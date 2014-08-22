@@ -45,10 +45,15 @@ class Checkbox extends SimpleLookup
 		$strParamName = $this->getParamName();
 
 		// If is a checkbox defined as "no", 1 has to become -1 like with radio fields.
-		$arrFilterUrl[$strParamName] =
-			($arrFilterUrl[$strParamName] == '1' && $this->get('ynmode') == 'no' ? '-1' : $arrFilterUrl[$strParamName]);
+		if (isset($arrFilterUrl[$strParamName]))
+		{
+			$arrFilterUrl[$strParamName] =
+				($arrFilterUrl[$strParamName] == '1' && $this->get('ynmode') == 'no'
+					? '-1'
+					: $arrFilterUrl[$strParamName]);
+		}
 
-		if ($objAttribute && $strParamName && $arrFilterUrl[$strParamName])
+		if ($objAttribute && $strParamName && !empty($arrFilterUrl[$strParamName]))
 		{
 			// Param -1 has to be '' meaning 'really empty'.
 			$arrFilterUrl[$strParamName] = ($arrFilterUrl[$strParamName] == '-1' ? '' : $arrFilterUrl[$strParamName]);
