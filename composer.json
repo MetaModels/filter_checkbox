@@ -53,13 +53,13 @@
 	},
 	"autoload": {
 		"psr-0": {
-			"MetaModels": "src/system/modules/metamodelsfilter_checkbox"
+			"MetaModels": "src"
 		}
 	},
 	"extra":{
 		"contao": {
-			"symlinks":{
-				"src/system/modules/metamodelsfilter_checkbox":"system/modules/metamodelsfilter_checkbox"
+			"sources":{
+				"contao":"system/modules/metamodelsfilter_checkbox"
 			},
 			"transifex": {
 				"project": "metamodels",
