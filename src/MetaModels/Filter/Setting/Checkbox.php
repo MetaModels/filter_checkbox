@@ -33,142 +33,140 @@ use MetaModels\IMetaModel;
  */
 class Checkbox extends SimpleLookup
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function prepareRules(IFilter $objFilter, $arrFilterUrl)
-	{
-		$objMetaModel = $this->getMetaModel();
-		$arrLanguages = $this->getAvailableLanguages();
-		$objAttribute = $objMetaModel->getAttributeById($this->get('attr_id'));
+    /**
+     * {@inheritdoc}
+     */
+    public function prepareRules(IFilter $objFilter, $arrFilterUrl)
+    {
+        $objMetaModel = $this->getMetaModel();
+        $arrLanguages = $this->getAvailableLanguages();
+        $objAttribute = $objMetaModel->getAttributeById($this->get('attr_id'));
 
-		$strParamName = $this->getParamName();
+        $strParamName = $this->getParamName();
 
-		// If is a checkbox defined as "no", 1 has to become -1 like with radio fields.
-		if (isset($arrFilterUrl[$strParamName]))
-		{
-			$arrFilterUrl[$strParamName] =
-				($arrFilterUrl[$strParamName] == '1' && $this->get('ynmode') == 'no'
-					? '-1'
-					: $arrFilterUrl[$strParamName]);
-		}
+        // If is a checkbox defined as "no", 1 has to become -1 like with radio fields.
+        if (isset($arrFilterUrl[$strParamName])) {
+            $arrFilterUrl[$strParamName] =
+                ($arrFilterUrl[$strParamName] == '1' && $this->get('ynmode') == 'no'
+                    ? '-1'
+                    : $arrFilterUrl[$strParamName]);
+        }
 
-		if ($objAttribute && $strParamName && !empty($arrFilterUrl[$strParamName]))
-		{
-			// Param -1 has to be '' meaning 'really empty'.
-			$arrFilterUrl[$strParamName] = ($arrFilterUrl[$strParamName] == '-1' ? '' : $arrFilterUrl[$strParamName]);
+        if ($objAttribute && $strParamName && !empty($arrFilterUrl[$strParamName])) {
+            // Param -1 has to be '' meaning 'really empty'.
+            $arrFilterUrl[$strParamName] = ($arrFilterUrl[$strParamName] == '-1' ? '' : $arrFilterUrl[$strParamName]);
 
-			$objFilterRule = new SearchAttribute($objAttribute, $arrFilterUrl[$strParamName], $arrLanguages);
-			$objFilter->addFilterRule($objFilterRule);
-			return;
-		}
+            $objFilterRule = new SearchAttribute($objAttribute, $arrFilterUrl[$strParamName], $arrLanguages);
+            $objFilter->addFilterRule($objFilterRule);
 
-		$objFilter->addFilterRule(new StaticIdList(null));
-	}
+            return;
+        }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getParameterDCA()
-	{
-		// If defined as static, return nothing as not to be manipulated via editors.
-		if (!$this->get('predef_param'))
-		{
-			return array();
-		}
+        $objFilter->addFilterRule(new StaticIdList(null));
+    }
 
-		$objAttribute = $this->getMetaModel()->getAttributeById($this->get('attr_id'));
+    /**
+     * {@inheritdoc}
+     */
+    public function getParameterDCA()
+    {
+        // If defined as static, return nothing as not to be manipulated via editors.
+        if (!$this->get('predef_param')) {
+            return array();
+        }
 
-		return array(
-			$this->getParamName() => array
-			(
-				'label'     => array(
-					($this->get('label') ? $this->get('label') : $objAttribute->getName()),
-					'GET: '.$this->get('urlparam')
-				),
-				'inputType' => 'checkbox',
-			)
-		);
-	}
+        $objAttribute = $this->getMetaModel()->getAttributeById($this->get('attr_id'));
 
-	/**
-	 * Overrides the parent implementation to always return true, as this setting is always optional.
-	 *
-	 * @return bool true if all matches shall be returned, false otherwise.
-	 */
-	public function allowEmpty()
-	{
-		return true;
-	}
+        return array(
+            $this->getParamName() => array
+            (
+                'label'     => array(
+                    ($this->get('label') ? $this->get('label') : $objAttribute->getName()),
+                    'GET: '.$this->get('urlparam')
+                ),
+                'inputType' => 'checkbox',
+            )
+        );
+    }
 
-	/**
-	 * Overrides the parent implementation to always return true, as this setting is always available for FE filtering.
-	 *
-	 * @return bool true as this setting is always available.
-	 */
-	public function enableFEFilterWidget()
-	{
-		return true;
-	}
+    /**
+     * Overrides the parent implementation to always return true, as this setting is always optional.
+     *
+     * @return bool true if all matches shall be returned, false otherwise.
+     */
+    public function allowEmpty()
+    {
+        return true;
+    }
 
-	/**
-	 * {@inheritdoc}
+    /**
+     * Overrides the parent implementation to always return true, as this setting is always available for FE filtering.
+     *
+     * @return bool true as this setting is always available.
+     */
+    public function enableFEFilterWidget()
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
      *
      * @SuppressWarnings(PHPMD.Superglobals)
-	 */
-	public function getParameterFilterWidgets(
-		$arrIds,
-		$arrFilterUrl,
-		$arrJumpTo,
-		FrontendFilterOptions $objFrontendFilterOptions
-	)
-	{
+     */
+    public function getParameterFilterWidgets(
+        $arrIds,
+        $arrFilterUrl,
+        $arrJumpTo,
+        FrontendFilterOptions $objFrontendFilterOptions
+    ) {
 
-		$objAttribute = $this->getMetaModel()->getAttributeById($this->get('attr_id'));
+        $objAttribute = $this->getMetaModel()->getAttributeById($this->get('attr_id'));
 
-		$arrWidget = array
-		(
-			'label'     => $this->prepareLabel($objAttribute),
-			'inputType' => ($this->get('ynmode') == 'radio' ?: 'checkbox'),
-			'eval'      => array(
-				'colname'            => $objAttribute->getColname(),
-				'urlparam'           => $this->getParamName(),
-				'ynmode'             => $this->get('ynmode'),
-				'ynfield'            => $this->get('ynfield'),
-				'template'           => $this->get('template'),
-				'includeBlankOption' => ($this->get('ynmode') == 'radio' && $this->get('blankoption') ? true : false),
-			)
-		);
+        $arrWidget = array
+        (
+            'label'     => $this->prepareLabel($objAttribute),
+            'inputType' => ($this->get('ynmode') == 'radio' ?: 'checkbox'),
+            'eval'      => array(
+                'colname'            => $objAttribute->getColname(),
+                'urlparam'           => $this->getParamName(),
+                'ynmode'             => $this->get('ynmode'),
+                'ynfield'            => $this->get('ynfield'),
+                'template'           => $this->get('template'),
+                'includeBlankOption' => ($this->get('ynmode') == 'radio' && $this->get('blankoption') ? true : false),
+            )
+        );
 
-		if ($this->get('ynmode') == 'radio')
-		{
-			$arrWidget['options']   = array
-			(
-				0    => '-1',
-				1    => '1'
-			);
-			$arrWidget['reference'] = array
-			(
-				'-1' => $GLOBALS['TL_LANG']['MSC']['no'],
-				'1'  => $GLOBALS['TL_LANG']['MSC']['yes']
-			);
-		}
+        if ($this->get('ynmode') == 'radio') {
+            $arrWidget['options']   = array
+            (
+                0    => '-1',
+                1    => '1'
+            );
+            $arrWidget['reference'] = array
+            (
+                '-1' => $GLOBALS['TL_LANG']['MSC']['no'],
+                '1'  => $GLOBALS['TL_LANG']['MSC']['yes']
+            );
+        }
 
         $this->addFilterParam();
 
         return array
-		(
-			$this->getParamName() => $this->prepareFrontendFilterWidget(
-				$arrWidget,
-				$arrFilterUrl,
-				$arrJumpTo,
-				$objFrontendFilterOptions
-			)
-		);
-	}
+        (
+            $this->getParamName() => $this->prepareFrontendFilterWidget(
+                $arrWidget,
+                $arrFilterUrl,
+                $arrJumpTo,
+                $objFrontendFilterOptions
+            )
+        );
+    }
 
     /**
      * Add filter param to global.
+     *
+     * @return void
      *
      * @SuppressWarnings(PHPMD.Superglobals)
      */
