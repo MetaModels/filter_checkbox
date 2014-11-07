@@ -17,10 +17,12 @@
 
 namespace MetaModels\Filter\Setting;
 
+use MetaModels\Attribute\IAttribute;
 use MetaModels\Filter\IFilter;
 use MetaModels\Filter\Rules\SearchAttribute;
 use MetaModels\Filter\Rules\StaticIdList;
 use MetaModels\FrontendIntegration\FrontendFilterOptions;
+use MetaModels\IMetaModel;
 
 /**
  * Filter "checkbox" for FE-filtering, based on filters by the meta models team.
@@ -37,9 +39,7 @@ class Checkbox extends SimpleLookup
 	public function prepareRules(IFilter $objFilter, $arrFilterUrl)
 	{
 		$objMetaModel = $this->getMetaModel();
-		$arrLanguages = ($objMetaModel->isTranslated() && $this->get('all_langs'))
-			? $objMetaModel->getAvailableLanguages()
-			: array($objMetaModel->getActiveLanguage());
+		$arrLanguages = $this->getAvailableLanguages();
 		$objAttribute = $objMetaModel->getAttributeById($this->get('attr_id'));
 
 		$strParamName = $this->getParamName();
@@ -113,6 +113,8 @@ class Checkbox extends SimpleLookup
 
 	/**
 	 * {@inheritdoc}
+     *
+     * @SuppressWarnings(PHPMD.Superglobals)
 	 */
 	public function getParameterFilterWidgets(
 		$arrIds,
@@ -126,26 +128,7 @@ class Checkbox extends SimpleLookup
 
 		$arrWidget = array
 		(
-			'label'     => ($this->get('ynmode') == 'radio' || $this->get('ynfield') ?
-				array(
-					($this->get('label') ?: $objAttribute->getName()),
-					($this->get('ynmode') == 'yes'
-						? $GLOBALS['TL_LANG']['MSC']['yes']
-						: $GLOBALS['TL_LANG']['MSC']['no']
-					)
-				)
-				:
-				array(
-					($this->get('label') ?: $objAttribute->getName()),
-					($this->get('ynmode') == 'no'
-						? sprintf(
-							$GLOBALS['TL_LANG']['MSC']['extended_no'],
-							($this->get('label') ?: $objAttribute->getName())
-						)
-						: ($this->get('label') ?: $objAttribute->getName())
-					)
-				)
-			),
+			'label'     => $this->prepareLabel($objAttribute),
 			'inputType' => ($this->get('ynmode') == 'radio' ?: 'checkbox'),
 			'eval'      => array(
 				'colname'            => $objAttribute->getColname(),
@@ -192,5 +175,52 @@ class Checkbox extends SimpleLookup
     private function addFilterParam()
     {
         $GLOBALS['MM_FILTER_PARAMS'][] = $this->getParamName();
+    }
+
+    /**
+     * Get available langauges.
+     *
+     * @param IMetaModel $objMetaModel The metamodel.
+     *
+     * @return array|null|\string[]
+     */
+    private function getAvailableLanguages(IMetaModel $objMetaModel)
+    {
+        return ($objMetaModel->isTranslated() && $this->get('all_langs'))
+            ? $objMetaModel->getAvailableLanguages()
+            : array($objMetaModel->getActiveLanguage());
+    }
+
+    /**
+     * Prepare the label depending on yes no mode.
+     *
+     * @param IAttribute $objAttribute The metamodel attribute.
+     *
+     * @return array
+     *
+     * @SuppressWarnings(PHPMD.Superglobals)
+     */
+    private function prepareLabel(IAttribute $objAttribute)
+    {
+        return ($this->get('ynmode') == 'radio' || $this->get('ynfield') ?
+            array(
+                ($this->get('label') ?: $objAttribute->getName()),
+                ($this->get('ynmode') == 'yes'
+                    ? $GLOBALS['TL_LANG']['MSC']['yes']
+                    : $GLOBALS['TL_LANG']['MSC']['no']
+                )
+            )
+            :
+            array(
+                ($this->get('label') ?: $objAttribute->getName()),
+                ($this->get('ynmode') == 'no'
+                    ? sprintf(
+                        $GLOBALS['TL_LANG']['MSC']['extended_no'],
+                        ($this->get('label') ?: $objAttribute->getName())
+                    )
+                    : ($this->get('label') ?: $objAttribute->getName())
+                )
+            )
+        );
     }
 }
