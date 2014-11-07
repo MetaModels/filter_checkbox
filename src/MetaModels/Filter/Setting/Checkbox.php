@@ -171,9 +171,9 @@ class Checkbox extends SimpleLookup
 			);
 		}
 
-		$GLOBALS['MM_FILTER_PARAMS'][] = $this->getParamName();
+        $this->addFilterParam();
 
-		return array
+        return array
 		(
 			$this->getParamName() => $this->prepareFrontendFilterWidget(
 				$arrWidget,
@@ -183,4 +183,14 @@ class Checkbox extends SimpleLookup
 			)
 		);
 	}
+
+    /**
+     * Add filter param to global.
+     *
+     * @SuppressWarnings(PHPMD.Superglobals)
+     */
+    private function addFilterParam()
+    {
+        $GLOBALS['MM_FILTER_PARAMS'][] = $this->getParamName();
+    }
 }
