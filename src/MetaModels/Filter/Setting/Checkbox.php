@@ -39,7 +39,7 @@ class Checkbox extends SimpleLookup
     public function prepareRules(IFilter $objFilter, $arrFilterUrl)
     {
         $objMetaModel = $this->getMetaModel();
-        $arrLanguages = $this->getAvailableLanguages();
+        $arrLanguages = $this->getAvailableLanguages($objMetaModel);
         $objAttribute = $objMetaModel->getAttributeById($this->get('attr_id'));
 
         $strParamName = $this->getParamName();
