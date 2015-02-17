@@ -9,6 +9,9 @@
  * PHP version 5
  * @package    MetaModels
  * @subpackage FilterCheckbox
+ * @author     Andreas Isaak <info@andreas-isaak.de>
+ * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
+ * @author     David Molineus <mail@netzmacht.de>
  * @author     Christian de la Haye <service@delahaye.de>
  * @copyright  The MetaModels team.
  * @license    LGPL.
