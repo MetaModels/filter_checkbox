@@ -6,6 +6,6 @@ For documentation visit:
   https://github.com/phpcq/phpcq
 
 -->
-<project name="MetaModels filter checkbox" default="build">
+<project name="metamodels/filter_checkbox" default="build">
     <import file="vendor/phpcq/phpcq/phpcq.main.xml"/>
 </project>
