@@ -1,22 +1,25 @@
 <?php
 
 /**
- * The MetaModels extension allows the creation of multiple collections of custom items,
- * each with its own unique set of selectable attributes, with attribute extendability.
- * The Front-End modules allow you to build powerful listing and filtering of the
- * data in each collection.
+ * This file is part of MetaModels/filter_checkbox.
  *
- * PHP version 5
+ * (c) 2012-2016 The MetaModels team.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This project is provided in good faith and hope to be usable by anyone.
+ *
  * @package    MetaModels
  * @subpackage FilterCheckbox
+ * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @author     Christian de la Haye <service@delahaye.de>
  * @author     Andreas Isaak <info@andreas-isaak.de>
  * @author     Andreas Nölke <zero@brothers-project.de>
- * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @author     David Molineus <mail@netzmacht.de>
  * @author     Stefan Heimes <stefan_heimes@hotmail.com>
- * @copyright  The MetaModels team.
- * @license    LGPL.
+ * @copyright  2012-2016 The MetaModels team.
+ * @license    https://github.com/MetaModels/filter_checkbox/blob/master/LICENSE LGPL-3.0
  * @filesource
  */
 
@@ -31,10 +34,6 @@ use MetaModels\IMetaModel;
 
 /**
  * Filter "checkbox" for FE-filtering, based on filters by the meta models team.
- *
- * @package    MetaModels
- * @subpackage FilterCheckbox
- * @author     Christian de la Haye <service@delahaye.de>
  */
 class Checkbox extends SimpleLookup
 {
@@ -133,7 +132,7 @@ class Checkbox extends SimpleLookup
             'label'     => $this->prepareLabel($objAttribute),
             'inputType' => ($this->get('ynmode') == 'radio' ?: 'checkbox'),
             'eval'      => array(
-                'colname'            => $objAttribute->getColname(),
+                'colname'            => $objAttribute->getColName(),
                 'urlparam'           => $this->getParamName(),
                 'ynmode'             => $this->get('ynmode'),
                 'ynfield'            => $this->get('ynfield'),

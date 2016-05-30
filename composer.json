@@ -38,11 +38,11 @@
   },
   "require-dev": {
     "cyberspectrum/contao-toolbox": "~0.6",
-    "phpcq/all-tasks": "~1.0"
+    "phpcq/all-tasks": "~1.1"
   },
   "autoload": {
     "psr-0": {
-      "MetaModels": "src"
+      "MetaModels\\": "src"
     }
   },
   "extra": {
