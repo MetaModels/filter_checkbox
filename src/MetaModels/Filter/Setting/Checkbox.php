@@ -3,7 +3,7 @@
 /**
  * This file is part of MetaModels/filter_checkbox.
  *
- * (c) 2012-2016 The MetaModels team.
+ * (c) 2012-2017 The MetaModels team.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -18,7 +18,8 @@
  * @author     Andreas Nölke <zero@brothers-project.de>
  * @author     David Molineus <mail@netzmacht.de>
  * @author     Stefan Heimes <stefan_heimes@hotmail.com>
- * @copyright  2012-2016 The MetaModels team.
+ * @author     Ingolf Steinhardt <info@e-spin.de>
+ * @copyright  2012-2017 The MetaModels team.
  * @license    https://github.com/MetaModels/filter_checkbox/blob/master/LICENSE LGPL-3.0
  * @filesource
  */
@@ -130,7 +131,7 @@ class Checkbox extends SimpleLookup
         $arrWidget = array
         (
             'label'     => $this->prepareLabel($objAttribute),
-            'inputType' => ($this->get('ynmode') == 'radio' ?: 'checkbox'),
+            'inputType' => ($this->get('ynmode') == 'radio' ? 'radio' : 'checkbox'),
             'eval'      => array(
                 'colname'            => $objAttribute->getColName(),
                 'urlparam'           => $this->getParamName(),
