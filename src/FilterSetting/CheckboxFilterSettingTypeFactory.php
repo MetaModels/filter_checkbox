@@ -37,8 +37,8 @@ class CheckboxFilterSettingTypeFactory extends AbstractFilterSettingTypeFactory
 
         $this
             ->setTypeName('checkbox')
-            ->setTypeIcon('system/modules/metamodelsfilter_checkbox/html/filter_checkbox.png')
-            ->setTypeClass('MetaModels\Filter\Setting\Checkbox')
+            ->setTypeIcon('bundles/metamodelsfiltercheckbox/filter_checkbox.png')
+            ->setTypeClass(Checkbox::class)
             ->allowAttributeTypes('checkbox');
     }
 }
