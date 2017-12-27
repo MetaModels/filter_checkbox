@@ -43,8 +43,16 @@
     "contao/manager-plugin": "~2.1"
   },
   "autoload": {
-    "psr-0": {
-      "MetaModels\\": "src"
+    "psr-4": {
+      "MetaModels\\FilterCheckboxBundle\\": "src"
+    },
+    "files": [
+      "src/deprecated-autoload.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "MetaModels\\FilterFromToBundle\\Test\\": "tests"
     }
   },
   "extra": {

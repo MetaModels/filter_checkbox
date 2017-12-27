@@ -11,7 +11,7 @@
  * This project is provided in good faith and hope to be usable by anyone.
  *
  * @package    MetaModels
- * @subpackage FilterCheckbox
+ * @subpackage FilterCheckboxBundle
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @author     Christian de la Haye <service@delahaye.de>
  * @author     Andreas Isaak <info@andreas-isaak.de>
@@ -19,17 +19,19 @@
  * @author     David Molineus <mail@netzmacht.de>
  * @author     Stefan Heimes <stefan_heimes@hotmail.com>
  * @author     Ingolf Steinhardt <info@e-spin.de>
+ * @author     Richard Henkenjohann <richardhenkenjohann@googlemail.com>
  * @copyright  2012-2017 The MetaModels team.
  * @license    https://github.com/MetaModels/filter_checkbox/blob/master/LICENSE LGPL-3.0
  * @filesource
  */
 
-namespace MetaModels\Filter\Setting;
+namespace MetaModels\FilterCheckboxBundle\FilterSetting;
 
 use MetaModels\Attribute\IAttribute;
 use MetaModels\Filter\IFilter;
 use MetaModels\Filter\Rules\SearchAttribute;
 use MetaModels\Filter\Rules\StaticIdList;
+use MetaModels\Filter\Setting\SimpleLookup;
 use MetaModels\FrontendIntegration\FrontendFilterOptions;
 use MetaModels\IMetaModel;
 
