@@ -52,7 +52,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "MetaModels\\FilterFromToBundle\\Test\\": "tests"
+      "MetaModels\\FilterCheckboxBundle\\Test\\": "tests"
     }
   },
   "extra": {
