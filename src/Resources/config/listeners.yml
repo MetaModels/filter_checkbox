@@ -1,5 +1,0 @@
-services:
-    metamodels.filter_checkbox.factory:
-        class: MetaModels\FilterCheckboxBundle\FilterSetting\CheckboxFilterSettingTypeFactory
-        tags:
-          - { name: metamodels.filter_factory }
