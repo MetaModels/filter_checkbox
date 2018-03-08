@@ -3,7 +3,7 @@
 /**
  * This file is part of MetaModels/filter_checkbox.
  *
- * (c) 2012-2016 The MetaModels team.
+ * (c) 2012-2018 The MetaModels team.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,14 +16,14 @@
  * @author     Andreas Isaak <info@andreas-isaak.de>
  * @author     David Molineus <mail@netzmacht.de>
  * @author     Christian de la Haye <service@delahaye.de>
- * @copyright  2012-2016 The MetaModels team.
- * @license    https://github.com/MetaModels/filter_checkbox/blob/master/LICENSE LGPL-3.0
+ * @author     Ingolf Steinhardt <info@e-spin.de>
+ * @copyright  2012-2018 The MetaModels team.
+ * @license    https://github.com/MetaModels/filter_checkbox/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
 
-$GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['metapalettes']['checkbox extends _attribute_']['+config'][] =
+$GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['metapalettes']['checkbox extends _attribute_']['+fefilter'][] =
     'urlparam';
-
 $GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['metapalettes']['checkbox extends _attribute_']['+fefilter'][] =
     'label';
 $GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['metapalettes']['checkbox extends _attribute_']['+fefilter'][] =
