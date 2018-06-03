@@ -37,21 +37,23 @@ $GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['metasubselectpalettes']['ynmod
 
 $GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['fields']['ynfield'] = array
 (
-    'label'                   => &$GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['ynfield'],
-    'exclude'                 => true,
-    'default'                 => true,
-    'inputType'               => 'checkbox',
-    'eval'                    => array(
-        'tl_class'            => 'w50',
+    'label'     => &$GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['ynfield'],
+    'exclude'   => true,
+    'default'   => true,
+    'inputType' => 'checkbox',
+    'sql'       => 'char(1) NOT NULL default \'1\'',
+    'eval'      => array(
+        'tl_class' => 'w50',
     ),
 );
 
 $GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['fields']['ynmode'] = array
 (
-    'label'                   => &$GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['ynmode'],
-    'exclude'                 => true,
-    'inputType'               => 'radio',
-    'options'                 => array('yes','no','radio'),
-    'reference'               => $GLOBALS['TL_LANG']['tl_metamodel_filtersetting'],
-    'eval'                    => array('tl_class' => 'w50 clr', 'submitOnChange' => true)
+    'label'     => &$GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['ynmode'],
+    'exclude'   => true,
+    'inputType' => 'radio',
+    'options'   => array('yes', 'no', 'radio'),
+    'reference' => $GLOBALS['TL_LANG']['tl_metamodel_filtersetting'],
+    'sql'       => 'varchar(8) NOT NULL default \'yes\'',
+    'eval'      => array('tl_class' => 'w50 clr', 'submitOnChange' => true)
 );
