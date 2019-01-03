@@ -49,12 +49,6 @@
     "contao": {
       "sources": {
         "contao": "system/modules/metamodelsfilter_checkbox"
-      },
-      "transifex": {
-        "project": "metamodels",
-        "prefix": "filter_checkbox-",
-        "languages_cto": "contao/languages",
-        "languages_tx": ".tx"
       }
     },
     "branch-alias": {
