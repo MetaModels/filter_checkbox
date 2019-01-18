@@ -8,14 +8,14 @@
  *
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  *
- * last-updated: 2015-07-11T08:02:14+02:00
+ * last-updated: 2018-03-08T09:48:42+01:00
  */
 
 $GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['no']                    = 'Чекбокс нет';
 $GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['radio']                 = 'Выбор радио-кнопкой';
 $GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['typenames']['checkbox'] = 'Да/нет';
 $GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['yes']                   = 'Чекбокс да';
-$GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['ynfield']['0']          = 'Да/нет вместо имени атрибута';
+$GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['ynfield']['0']          = 'Да/нет вместо названия атрибута';
 $GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['ynfield']['1']          = 'Показать да/нет вместо имени атрибута и предоставить имя атрибута в качестве заголовка.';
 $GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['ynmode']['0']           = 'Модус';
 $GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['ynmode']['1']           = 'Сделать да/нет выбираемым';
