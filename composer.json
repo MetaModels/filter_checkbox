@@ -59,8 +59,7 @@
   "extra": {
     "contao-manager-plugin": "MetaModels\\FilterCheckboxBundle\\ContaoManager\\Plugin",
     "branch-alias": {
-      "dev-master": "2.0.x-dev",
-      "dev-develop": "2.1.x-dev"
+      "dev-release/2.1.0": "2.1.x-dev"
     }
   },
   "config": {
