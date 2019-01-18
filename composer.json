@@ -31,8 +31,8 @@
     "source": "https://github.com/MetaModels/filter_checkbox"
   },
   "require": {
-    "php": "^5.6 || ^7.0",
-    "contao-community-alliance/dc-general": "~2.1@dev",
+    "php": "^7.1",
+    "contao-community-alliance/dc-general": "^2.1@dev",
     "contao/core-bundle": "^4.4",
     "metamodels/core": "~2.1@dev",
     "symfony/dependency-injection": "^3.3"
