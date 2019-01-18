@@ -32,15 +32,14 @@
   },
   "require": {
     "php": "^5.6 || ^7.0",
-    "contao/core-bundle": "^4.4",
     "contao-community-alliance/dc-general": "~2.1@dev",
+    "contao/core-bundle": "^4.4",
     "metamodels/core": "~2.1@dev",
     "symfony/dependency-injection": "^3.3"
   },
   "require-dev": {
-    "cyberspectrum/contao-toolbox": "~0.6",
-    "phpcq/all-tasks": "~1.2",
-    "contao/manager-plugin": "~2.1"
+    "contao/manager-plugin": "~2.1",
+    "phpcq/all-tasks": "^1.2"
   },
   "autoload": {
     "psr-4": {
@@ -57,17 +56,12 @@
   },
   "extra": {
     "contao-manager-plugin": "MetaModels\\FilterCheckboxBundle\\ContaoManager\\Plugin",
-    "contao": {
-      "transifex": {
-        "project": "metamodels",
-        "prefix": "filter_checkbox-",
-        "languages_cto": "src/Resources/contao/languages",
-        "languages_tx": ".tx"
-      }
-    },
     "branch-alias": {
       "dev-master": "2.0.x-dev",
       "dev-develop": "2.1.x-dev"
     }
+  },
+  "config": {
+    "sort-packages": true
   }
 }
