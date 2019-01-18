@@ -44,7 +44,7 @@ $GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['fields']['ynfield'] = [
     'eval'      => [
         'tl_class' => 'w50',
     ],
-    'sql'       => "char(1) NOT NULL default '1'",
+    'sql'       => 'char(1) NOT NULL default \'1\'',
 ];
 
 $GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['fields']['ynmode'] = [
@@ -61,5 +61,5 @@ $GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['fields']['ynmode'] = [
         'tl_class'       => 'w50 clr',
         'submitOnChange' => true,
     ],
-    'sql'       => "varchar(8) NOT NULL default 'yes'",
+    'sql'       => 'varchar(8) NOT NULL default \'yes\'',
 ];
