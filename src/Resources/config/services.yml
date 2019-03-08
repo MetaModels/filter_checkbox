@@ -1,6 +1,9 @@
 services:
     metamodels.filter_checkbox.factory:
         class: MetaModels\FilterCheckboxBundle\FilterSetting\CheckboxFilterSettingTypeFactory
+        arguments:
+          - '@event_dispatcher'
+          - '@MetaModels\Filter\FilterUrlBuilder'
         tags:
           - { name: metamodels.filter_factory }
 
