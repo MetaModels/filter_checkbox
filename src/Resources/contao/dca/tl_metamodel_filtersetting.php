@@ -15,6 +15,7 @@
  * @author     Andreas Isaak <info@andreas-isaak.de>
  * @author     David Molineus <mail@netzmacht.de>
  * @author     Christian de la Haye <service@delahaye.de>
+ * @author     Richard Henkenjohann <richardhenkenjohann@googlemail.com>
  * @author     Ingolf Steinhardt <info@e-spin.de>
  * @copyright  2012-2019 The MetaModels team.
  * @license    https://github.com/MetaModels/filter_checkbox/blob/master/LICENSE LGPL-3.0-or-later
@@ -30,29 +31,34 @@ $GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['metapalettes']['checkbox exten
 $GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['metapalettes']['checkbox extends _attribute_']['+fefilter'][] =
     'ynmode';
 
-$GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['metasubselectpalettes']['ynmode']['yes']   = array('ynfield');
-$GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['metasubselectpalettes']['ynmode']['no']    = array('ynfield');
-$GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['metasubselectpalettes']['ynmode']['radio'] = array('blankoption');
+$GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['metasubselectpalettes']['ynmode']['yes']   = ['ynfield'];
+$GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['metasubselectpalettes']['ynmode']['no']    = ['ynfield'];
+$GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['metasubselectpalettes']['ynmode']['radio'] = ['blankoption'];
 
-$GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['fields']['ynfield'] = array
-(
+$GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['fields']['ynfield'] = [
     'label'     => &$GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['ynfield'],
     'exclude'   => true,
     'default'   => true,
     'inputType' => 'checkbox',
-    'sql'       => 'char(1) NOT NULL default \'1\'',
-    'eval'      => array(
+    'eval'      => [
         'tl_class' => 'w50',
-    ),
-);
+    ],
+    'sql'       => 'char(1) NOT NULL default \'1\'',
+];
 
-$GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['fields']['ynmode'] = array
-(
+$GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['fields']['ynmode'] = [
     'label'     => &$GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['ynmode'],
     'exclude'   => true,
     'inputType' => 'radio',
-    'options'   => array('yes', 'no', 'radio'),
+    'options'   => [
+        'yes',
+        'no',
+        'radio',
+    ],
     'reference' => $GLOBALS['TL_LANG']['tl_metamodel_filtersetting'],
+    'eval'      => [
+        'tl_class'       => 'w50 clr',
+        'submitOnChange' => true,
+    ],
     'sql'       => 'varchar(8) NOT NULL default \'yes\'',
-    'eval'      => array('tl_class' => 'w50 clr', 'submitOnChange' => true)
-);
+];

@@ -1,0 +1,22 @@
+services:
+    metamodels.filter_checkbox.factory:
+        class: MetaModels\FilterCheckboxBundle\FilterSetting\CheckboxFilterSettingTypeFactory
+        arguments:
+          - '@event_dispatcher'
+          - '@MetaModels\Filter\FilterUrlBuilder'
+        tags:
+          - { name: metamodels.filter_factory }
+
+    metamodels.filter_checkbox.listener.filter_setting_renderer:
+        class: MetaModels\FilterCheckboxBundle\EventListener\CheckboxFilterSettingTypeRendererListener
+        arguments:
+          - "@metamodels.filter_setting_factory"
+          - "@event_dispatcher"
+          - "@metamodels.assets.icon_builder"
+          - "@cca.dc-general.scope-matcher"
+        tags:
+          - {
+              name: kernel.event_listener,
+              event: 'dc-general.view.contao2backend.model-to-label',
+              method: modelToLabel
+            }

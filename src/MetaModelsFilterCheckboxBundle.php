@@ -11,21 +11,20 @@
  * This project is provided in good faith and hope to be usable by anyone.
  *
  * @package    MetaModels/filter_checkbox
- * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
+ * @author     Richard Henkenjohann <richardhenkenjohann@googlemail.com>
  * @copyright  2012-2019 The MetaModels team.
  * @license    https://github.com/MetaModels/filter_checkbox/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
 
-use MetaModels\Filter\Setting\Events\CreateFilterSettingFactoryEvent;
-use MetaModels\Filter\Setting\CheckboxFilterSettingTypeFactory;
-use MetaModels\MetaModelsEvents;
+namespace MetaModels\FilterCheckboxBundle;
 
-return array
-(
-    MetaModelsEvents::FILTER_SETTING_FACTORY_CREATE => array(
-        function (CreateFilterSettingFactoryEvent $event) {
-            $event->getFactory()->addTypeFactory(new CheckboxFilterSettingTypeFactory());
-        }
-    )
-);
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+
+/**
+ * The Bundle class.
+ */
+class MetaModelsFilterCheckboxBundle extends Bundle
+{
+
+}
