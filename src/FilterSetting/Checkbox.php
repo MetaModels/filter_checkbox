@@ -156,6 +156,10 @@ class Checkbox extends SimpleLookup
             );
         }
 
+        if ($arrWidget['eval']['includeBlankOption']) {
+            $arrWidget['eval']['blankOptionLabel'] = $GLOBALS['TL_LANG']['metamodels_frontendfilter']['do_not_filter'];
+        }
+
         $this->addFilterParam();
 
         return array
