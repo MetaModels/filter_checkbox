@@ -73,26 +73,51 @@ class Checkbox extends SimpleLookup
 
     /**
      * {@inheritdoc}
+     *
+     * @SuppressWarnings(PHPMD.Superglobals)
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     public function getParameterDCA()
     {
         // If defined as static, return nothing as not to be manipulated via editors.
         if (!$this->get('predef_param')) {
-            return array();
+            return [];
         }
 
         $objAttribute = $this->getMetaModel()->getAttributeById($this->get('attr_id'));
 
-        return array(
-            $this->getParamName() => array
-            (
-                'label'     => array(
-                    ($this->get('label') ? $this->get('label') : $objAttribute->getName()),
-                    'GET: '.$this->get('urlparam')
-                ),
+        if ($this->get('ynmode') == 'radio') {
+            return [
+                $this->getParamName() => [
+                    'label'     => [
+                        ($this->get('label') ? $this->get('label') : $objAttribute->getName()),
+                        'GET: '.$this->get('urlparam')
+                    ],
+                    'inputType' => 'radio',
+                    'options' => [
+                        '-1' => '-1',
+                        '1' => '1'
+                    ],
+                    'reference' => [
+                        '-1' => $GLOBALS['TL_LANG']['MSC']['no'],
+                        '1'  => $GLOBALS['TL_LANG']['MSC']['yes']
+                    ],
+                    'eval' => [
+                        'includeBlankOption' => $this->get('blankoption')
+                    ]
+                ]
+            ];
+        }
+
+        return [
+            $this->getParamName() => [
+                'label'     => [
+                ($this->get('label') ? $this->get('label') : $objAttribute->getName()),
+                'GET: '.$this->get('urlparam')
+                ],
                 'inputType' => 'checkbox',
-            )
-        );
+            ]
+        ];
     }
 
     /**
