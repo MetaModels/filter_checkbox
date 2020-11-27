@@ -3,7 +3,7 @@
 /**
  * This file is part of MetaModels/filter_checkbox.
  *
- * (c) 2012-2019 The MetaModels team.
+ * (c) 2012-2020 The MetaModels team.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,7 +17,7 @@
  * @author     Christian de la Haye <service@delahaye.de>
  * @author     Richard Henkenjohann <richardhenkenjohann@googlemail.com>
  * @author     Ingolf Steinhardt <info@e-spin.de>
- * @copyright  2012-2019 The MetaModels team.
+ * @copyright  2012-2020 The MetaModels team.
  * @license    https://github.com/MetaModels/filter_checkbox/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
@@ -43,7 +43,7 @@ $GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['fields']['ynfield'] = [
     'default'   => true,
     'inputType' => 'checkbox',
     'eval'      => [
-        'tl_class' => 'w50',
+        'tl_class' => 'w50 cbx m12',
     ],
     'sql'       => 'char(1) NOT NULL default \'1\'',
 ];
