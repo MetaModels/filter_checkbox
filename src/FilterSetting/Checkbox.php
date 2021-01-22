@@ -3,7 +3,7 @@
 /**
  * This file is part of MetaModels/filter_checkbox.
  *
- * (c) 2012-2019 The MetaModels team.
+ * (c) 2012-2021 The MetaModels team.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -19,7 +19,7 @@
  * @author     Stefan Heimes <stefan_heimes@hotmail.com>
  * @author     Ingolf Steinhardt <info@e-spin.de>
  * @author     Richard Henkenjohann <richardhenkenjohann@googlemail.com>
- * @copyright  2012-2019 The MetaModels team.
+ * @copyright  2012-2021 The MetaModels team.
  * @license    https://github.com/MetaModels/filter_checkbox/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
@@ -91,18 +91,18 @@ class Checkbox extends SimpleLookup
                 $this->getParamName() => [
                     'label'     => [
                         ($this->get('label') ? $this->get('label') : $objAttribute->getName()),
-                        'GET: '.$this->get('urlparam')
+                        'GET: ' . $this->get('urlparam')
                     ],
                     'inputType' => 'radio',
-                    'options' => [
+                    'options'   => [
                         '-1' => '-1',
-                        '1' => '1'
+                        '1'  => '1'
                     ],
                     'reference' => [
                         '-1' => $GLOBALS['TL_LANG']['MSC']['no'],
                         '1'  => $GLOBALS['TL_LANG']['MSC']['yes']
                     ],
-                    'eval' => [
+                    'eval'      => [
                         'includeBlankOption' => $this->get('blankoption')
                     ]
                 ]
@@ -112,8 +112,8 @@ class Checkbox extends SimpleLookup
         return [
             $this->getParamName() => [
                 'label'     => [
-                ($this->get('label') ? $this->get('label') : $objAttribute->getName()),
-                'GET: '.$this->get('urlparam')
+                    ($this->get('label') ? $this->get('label') : $objAttribute->getName()),
+                    'GET: ' . $this->get('urlparam')
                 ],
                 'inputType' => 'checkbox',
             ]
@@ -154,31 +154,28 @@ class Checkbox extends SimpleLookup
 
         $objAttribute = $this->getMetaModel()->getAttributeById($this->get('attr_id'));
 
-        $arrWidget = array
-        (
+        $arrWidget = [
             'label'     => $this->prepareLabel($objAttribute),
             'inputType' => ($this->get('ynmode') == 'radio' ? 'radio' : 'checkbox'),
-            'eval'      => array(
+            'eval'      => [
                 'colname'            => $objAttribute->getColName(),
                 'urlparam'           => $this->getParamName(),
                 'ynmode'             => $this->get('ynmode'),
                 'ynfield'            => $this->get('ynfield'),
                 'template'           => $this->get('template'),
                 'includeBlankOption' => ($this->get('ynmode') == 'radio' && $this->get('blankoption') ? true : false),
-            )
-        );
+            ]
+        ];
 
         if ($this->get('ynmode') == 'radio') {
-            $arrWidget['options']   = array
-            (
-                0    => '-1',
-                1    => '1'
-            );
-            $arrWidget['reference'] = array
-            (
+            $arrWidget['options']   = [
+                0 => '-1',
+                1 => '1'
+            ];
+            $arrWidget['reference'] = [
                 '-1' => $GLOBALS['TL_LANG']['MSC']['no'],
                 '1'  => $GLOBALS['TL_LANG']['MSC']['yes']
-            );
+            ];
         }
 
         if ($arrWidget['eval']['includeBlankOption']) {
@@ -187,15 +184,14 @@ class Checkbox extends SimpleLookup
 
         $this->addFilterParam();
 
-        return array
-        (
+        return [
             $this->getParamName() => $this->prepareFrontendFilterWidget(
                 $arrWidget,
                 $arrFilterUrl,
                 $arrJumpTo,
                 $objFrontendFilterOptions
             )
-        );
+        ];
     }
 
     /**
@@ -221,7 +217,7 @@ class Checkbox extends SimpleLookup
     {
         return ($objMetaModel->isTranslated() && $this->get('all_langs'))
             ? $objMetaModel->getAvailableLanguages()
-            : array($objMetaModel->getActiveLanguage());
+            : [$objMetaModel->getActiveLanguage()];
     }
 
     /**
@@ -235,25 +231,29 @@ class Checkbox extends SimpleLookup
      */
     private function prepareLabel(IAttribute $objAttribute)
     {
-        return ($this->get('ynmode') == 'radio' || $this->get('ynfield') ?
-            array(
+        return ($this->get('ynmode') == 'radio' || $this->get('ynfield')
+            ?
+            [
                 ($this->get('label') ?: $objAttribute->getName()),
                 ($this->get('ynmode') == 'yes'
                     ? $GLOBALS['TL_LANG']['MSC']['yes']
                     : $GLOBALS['TL_LANG']['MSC']['no']
                 )
-            )
+            ]
             :
-            array(
+            [
                 ($this->get('label') ?: $objAttribute->getName()),
                 ($this->get('ynmode') == 'no'
                     ? sprintf(
                         $GLOBALS['TL_LANG']['MSC']['extended_no'],
                         ($this->get('label') ?: $objAttribute->getName())
                     )
-                    : ($this->get('label') ?: $objAttribute->getName())
+                    : sprintf(
+                        $GLOBALS['TL_LANG']['MSC']['extended_yes'],
+                        ($this->get('label') ?: $objAttribute->getName())
+                    )
                 )
-            )
+            ]
         );
     }
 }
