@@ -54,6 +54,7 @@ $GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['fields']['ynmode'] = [
     'label'     => &$GLOBALS['TL_LANG']['tl_metamodel_filtersetting']['ynmode'],
     'exclude'   => true,
     'inputType' => 'radio',
+    'default'   => 'yes',
     'options'   => [
         'yes',
         'no',
