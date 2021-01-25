@@ -60,7 +60,9 @@ class Checkbox extends SimpleLookup
 
         if ($objAttribute && $strParamName && !empty($arrFilterUrl[$strParamName])) {
             // Param -1 has to be '' meaning 'really empty'.
-            $arrFilterUrl[$strParamName] = ($arrFilterUrl[$strParamName] == '-1' ? '' : $arrFilterUrl[$strParamName]);
+            $arrFilterUrl[$strParamName] = ($arrFilterUrl[$strParamName] == $this->getParamValue(
+                'no'
+            ) ? '' : ($arrFilterUrl[$strParamName] == $this->getParamValue('yes') ? '1' : ''));
 
             $objFilterRule = new SearchAttribute($objAttribute, $arrFilterUrl[$strParamName], $arrLanguages);
             $objFilter->addFilterRule($objFilterRule);
@@ -95,12 +97,12 @@ class Checkbox extends SimpleLookup
                     ],
                     'inputType' => 'radio',
                     'options'   => [
-                        '-1' => '-1',
-                        '1'  => '1'
+                        $this->getParamValue('yes') => $this->getParamValue('yes'),
+                        $this->getParamValue('no')  => $this->getParamValue('no')
                     ],
                     'reference' => [
-                        '-1' => $GLOBALS['TL_LANG']['MSC']['no'],
-                        '1'  => $GLOBALS['TL_LANG']['MSC']['yes']
+                        $this->getParamValue('yes') => $GLOBALS['TL_LANG']['MSC']['yes'],
+                        $this->getParamValue('no')  => $GLOBALS['TL_LANG']['MSC']['no']
                     ],
                     'eval'      => [
                         'includeBlankOption' => $this->get('blankoption')
@@ -115,7 +117,7 @@ class Checkbox extends SimpleLookup
                     ($this->get('label') ? $this->get('label') : $objAttribute->getName()),
                     'GET: ' . $this->get('urlparam')
                 ],
-                'inputType' => 'checkbox',
+                'inputType' => 'checkbox'
             ]
         ];
     }
@@ -169,17 +171,21 @@ class Checkbox extends SimpleLookup
 
         if ($this->get('ynmode') == 'radio') {
             $arrWidget['options']   = [
-                0 => '-1',
-                1 => '1'
+                0 => $this->getParamValue('yes'),
+                1 => $this->getParamValue('no')
             ];
             $arrWidget['reference'] = [
-                '-1' => $GLOBALS['TL_LANG']['MSC']['no'],
-                '1'  => $GLOBALS['TL_LANG']['MSC']['yes']
+                $this->getParamValue('yes') => $GLOBALS['TL_LANG']['MSC']['yes'],
+                $this->getParamValue('no')  => $GLOBALS['TL_LANG']['MSC']['no']
             ];
         }
 
         if ($arrWidget['eval']['includeBlankOption']) {
             $arrWidget['eval']['blankOptionLabel'] = $GLOBALS['TL_LANG']['metamodels_frontendfilter']['do_not_filter'];
+        }
+
+        if ($this->get('ynmode') != 'radio' && $this->get('option_label_param')) {
+            $arrWidget['options'] = [$this->getParamValue($this->get('ynmode')) => $arrWidget['label'][1]];
         }
 
         $this->addFilterParam();
@@ -243,17 +249,33 @@ class Checkbox extends SimpleLookup
             :
             [
                 ($this->get('label') ?: $objAttribute->getName()),
-                ($this->get('ynmode') == 'no'
+                ($this->get('ynmode') == 'yes'
                     ? sprintf(
-                        $GLOBALS['TL_LANG']['MSC']['extended_no'],
+                        $GLOBALS['TL_LANG']['MSC']['extended_yes'],
                         ($this->get('label') ?: $objAttribute->getName())
                     )
                     : sprintf(
-                        $GLOBALS['TL_LANG']['MSC']['extended_yes'],
+                        $GLOBALS['TL_LANG']['MSC']['extended_no'],
                         ($this->get('label') ?: $objAttribute->getName())
                     )
                 )
             ]
         );
+    }
+
+    /**
+     * Prepare the parameter value.
+     *
+     * @param $value
+     *
+     * @return mixed|string
+     */
+    private function getParamValue($value): string
+    {
+        if ($this->get('option_label_param')) {
+            return 'yes' === $value ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'];
+        }
+
+        return 'yes' === $value ? '1' : '-1';
     }
 }
