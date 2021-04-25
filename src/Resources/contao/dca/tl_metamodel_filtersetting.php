@@ -36,6 +36,8 @@ $GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['metapalettes']['checkbox exten
     'ynmode';
 $GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['metapalettes']['checkbox extends _attribute_']['+fefilter'][] =
     'option_label_param';
+$GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['metapalettes']['checkbox extends _attribute_']['+fefilter'][] =
+    'cssID';
 
 $GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['metasubselectpalettes']['ynmode']['yes']   = ['ynfield'];
 $GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['metasubselectpalettes']['ynmode']['no']    = ['ynfield'];
