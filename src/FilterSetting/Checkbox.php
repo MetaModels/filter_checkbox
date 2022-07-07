@@ -3,7 +3,7 @@
 /**
  * This file is part of MetaModels/filter_checkbox.
  *
- * (c) 2012-2021 The MetaModels team.
+ * (c) 2012-2022 The MetaModels team.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -19,7 +19,7 @@
  * @author     Stefan Heimes <stefan_heimes@hotmail.com>
  * @author     Ingolf Steinhardt <info@e-spin.de>
  * @author     Richard Henkenjohann <richardhenkenjohann@googlemail.com>
- * @copyright  2012-2021 The MetaModels team.
+ * @copyright  2012-2022 The MetaModels team.
  * @license    https://github.com/MetaModels/filter_checkbox/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
@@ -46,7 +46,7 @@ class Checkbox extends SimpleLookup
     {
         $objMetaModel = $this->getMetaModel();
         $arrLanguages = $this->getAvailableLanguages($objMetaModel);
-        $objAttribute = $objMetaModel->getAttributeById($this->get('attr_id'));
+        $objAttribute = $objMetaModel->getAttributeById((int) $this->get('attr_id'));
 
         $strParamName = $this->getParamName();
 
@@ -86,13 +86,13 @@ class Checkbox extends SimpleLookup
             return [];
         }
 
-        $objAttribute = $this->getMetaModel()->getAttributeById($this->get('attr_id'));
+        $objAttribute = $this->getMetaModel()->getAttributeById((int) $this->get('attr_id'));
 
         if ($this->get('ynmode') == 'radio') {
             return [
                 $this->getParamName() => [
                     'label'     => [
-                        ($this->get('label') ? $this->get('label') : $objAttribute->getName()),
+                        $this->getLabel(),
                         'GET: ' . $this->get('urlparam')
                     ],
                     'inputType' => 'radio',
@@ -114,7 +114,7 @@ class Checkbox extends SimpleLookup
         return [
             $this->getParamName() => [
                 'label'     => [
-                    ($this->get('label') ? $this->get('label') : $objAttribute->getName()),
+                    $this->getLabel(),
                     'GET: ' . $this->get('urlparam')
                 ],
                 'inputType' => 'checkbox'
@@ -154,7 +154,7 @@ class Checkbox extends SimpleLookup
         FrontendFilterOptions $objFrontendFilterOptions
     ) {
 
-        $objAttribute = $this->getMetaModel()->getAttributeById($this->get('attr_id'));
+        $objAttribute = $this->getMetaModel()->getAttributeById((int) $this->get('attr_id'));
 
         $arrWidget = [
             'label'     => $this->prepareLabel($objAttribute),
