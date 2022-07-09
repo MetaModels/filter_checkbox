@@ -3,7 +3,7 @@
 /**
  * This file is part of MetaModels/filter_checkbox.
  *
- * (c) 2012-2021 The MetaModels team.
+ * (c) 2012-2022 The MetaModels team.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,7 +17,7 @@
  * @author     Christian de la Haye <service@delahaye.de>
  * @author     Richard Henkenjohann <richardhenkenjohann@googlemail.com>
  * @author     Ingolf Steinhardt <info@e-spin.de>
- * @copyright  2012-2021 The MetaModels team.
+ * @copyright  2012-2022 The MetaModels team.
  * @license    https://github.com/MetaModels/filter_checkbox/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
@@ -64,7 +64,7 @@ $GLOBALS['TL_DCA']['tl_metamodel_filtersetting']['fields']['ynmode'] = [
         'no',
         'radio',
     ],
-    'reference' => $GLOBALS['TL_LANG']['tl_metamodel_filtersetting'],
+    'reference' => &$GLOBALS['TL_LANG']['tl_metamodel_filtersetting'],
     'eval'      => [
         'tl_class'       => 'w50 clr',
         'submitOnChange' => true,
