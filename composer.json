@@ -32,11 +32,11 @@
   },
   "require": {
     "php": "^7.4",
-    "contao-community-alliance/dc-general": "^2.2.0",
+    "contao-community-alliance/dc-general": "^2.2",
     "contao/core-bundle": "^4.9.0, <4.13.0",
     "metamodels/core": "^2.2",
-    "symfony/dependency-injection": "^3.4.26 || ^4.2.7",
-    "symfony/http-kernel": "^3.4.26 || ^4.2.7"
+    "symfony/dependency-injection": "^4.4.6",
+    "symfony/http-kernel": "~4.4.13"
   },
   "require-dev": {
     "contao/manager-plugin": "^2.1",
