@@ -266,11 +266,13 @@ class Checkbox extends SimpleLookup
     /**
      * Prepare the parameter value.
      *
-     * @param $value
+     * @param string $value The value.
      *
      * @return mixed|string
+     *
+     * @SuppressWarnings(PHPMD.Superglobals)
      */
-    private function getParamValue($value): string
+    private function getParamValue(string $value): string
     {
         if ($this->get('option_label_param')) {
             return 'yes' === $value ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'];
