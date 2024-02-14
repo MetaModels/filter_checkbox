@@ -3,7 +3,7 @@
 /**
  * This file is part of MetaModels/filter_checkbox.
  *
- * (c) 2012-2022 The MetaModels team.
+ * (c) 2012-2024 The MetaModels team.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,7 +13,7 @@
  * @package    MetaModels/filter_checkbox
  * @author     Richard Henkenjohann <richardhenkenjohann@googlemail.com>
  * @author     Ingolf Steinhardt <info@e-spin.de>
- * @copyright  2012-2022 The MetaModels team.
+ * @copyright  2012-2024 The MetaModels team.
  * @license    https://github.com/MetaModels/filter_checkbox/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
@@ -24,7 +24,6 @@ use MetaModels\FilterCheckboxBundle\DependencyInjection\MetaModelsFilterCheckbox
 use MetaModels\FilterCheckboxBundle\FilterSetting\CheckboxFilterSettingTypeFactory;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 
 /**
@@ -34,12 +33,7 @@ use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
  */
 class MetaModelsFilterCheckboxExtensionTest extends TestCase
 {
-    /**
-     * Test that extension can be instantiated.
-     *
-     * @return void
-     */
-    public function testInstantiation()
+    public function testInstantiation(): void
     {
         $extension = new MetaModelsFilterCheckboxExtension();
 
@@ -47,35 +41,15 @@ class MetaModelsFilterCheckboxExtensionTest extends TestCase
         $this->assertInstanceOf(ExtensionInterface::class, $extension);
     }
 
-    /**
-     * Test that the services are loaded.
-     *
-     * @return void
-     */
-    public function testFactoryIsRegistered()
+    public function testFactoryIsRegistered(): void
     {
-        $container = $this->getMockBuilder(ContainerBuilder::class)->getMock();
-
-        $container
-            ->expects($this->atLeastOnce())
-            ->method('setDefinition')
-            ->withConsecutive(
-                [
-                    'metamodels.filter_checkbox.factory',
-                    $this->callback(
-                        function ($value) {
-                            /** @var Definition $value */
-                            $this->assertInstanceOf(Definition::class, $value);
-                            $this->assertEquals(CheckboxFilterSettingTypeFactory::class, $value->getClass());
-                            $this->assertCount(1, $value->getTag('metamodels.filter_factory'));
-
-                            return true;
-                        }
-                    )
-                ]
-            );
+        $container = new ContainerBuilder();
 
         $extension = new MetaModelsFilterCheckboxExtension();
         $extension->load([], $container);
+
+        self::assertTrue($container->hasDefinition('metamodels.filter_checkbox.factory'));
+        $definition = $container->getDefinition('metamodels.filter_checkbox.factory');
+        self::assertCount(1, $definition->getTag('metamodels.filter_factory'));
     }
 }
