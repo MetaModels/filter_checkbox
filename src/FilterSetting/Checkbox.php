@@ -56,7 +56,7 @@ class Checkbox extends SimpleLookup
             $arrFilterUrl[$strParamName] =
                 ($arrFilterUrl[$strParamName] === '1' && $this->get('ynmode') === 'no'
                     ? '-1'
-                    : $arrFilterUrl[$strParamName]);
+                    : (string) $arrFilterUrl[$strParamName]);
         }
 
         if ($objAttribute && $strParamName && !empty($arrFilterUrl[$strParamName])) {
@@ -65,7 +65,11 @@ class Checkbox extends SimpleLookup
                 'no'
             ) ? '' : ($arrFilterUrl[$strParamName] === $this->getParamValue('yes') ? '1' : ''));
 
-            $objFilterRule = new SearchAttribute($objAttribute, $arrFilterUrl[$strParamName], $arrLanguages);
+            $objFilterRule = new SearchAttribute(
+                $objAttribute,
+                $arrFilterUrl[$strParamName],
+                \array_values(\array_filter($arrLanguages))
+            );
             $objFilter->addFilterRule($objFilterRule);
 
             return;
