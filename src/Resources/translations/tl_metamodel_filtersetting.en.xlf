@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="src/Resources/translations/tl_metamodel_filtersetting.en.xlf">
+    <body>
+      <trans-unit id="typenames.checkbox" resname="typenames.checkbox">
+        <source>Yes/no</source>
+      </trans-unit>
+      <trans-unit id="ynfield.label" resname="ynfield.label">
+        <source>Yes/no instead of attribute name</source>
+      </trans-unit>
+      <trans-unit id="ynfield.description" resname="ynfield.description">
+        <source>Show yes/no instead of attribute name and provide attribute name as a headline.</source>
+      </trans-unit>
+      <trans-unit id="ynmode.label" resname="ynmode.label">
+        <source>Modus</source>
+      </trans-unit>
+      <trans-unit id="ynmode.description" resname="ynmode.description">
+        <source>Make yes/no selectable.</source>
+      </trans-unit>
+      <trans-unit id="option_label_param.label" resname="option_label_param.label">
+        <source>Option label as parameter</source>
+      </trans-unit>
+      <trans-unit id="option_label_param.description" resname="option_label_param.description">
+        <source>If this checkbox set, the parameter value is the option label instead a number.</source>
+      </trans-unit>
+      <trans-unit id="ynmode.yes" resname="ynmode.yes">
+        <source>Checkbox yes</source>
+      </trans-unit>
+      <trans-unit id="ynmode.no" resname="ynmode.no">
+        <source>Checkbox no</source>
+      </trans-unit>
+      <trans-unit id="ynmode.radio" resname="ynmode.radio">
+        <source>Radio selection</source>
+      </trans-unit>
+      <trans-unit id="extended_no" resname="extended_no">
+        <source>%attribute%: no</source>
+      </trans-unit>
+      <trans-unit id="extended_yes" resname="extended_yes">
+        <source>%attribute%: yes</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

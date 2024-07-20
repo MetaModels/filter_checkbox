@@ -107,8 +107,8 @@ class Checkbox extends SimpleLookup
                         $this->getParamValue('no')  => $this->getParamValue('no')
                     ],
                     'reference' => [
-                        $this->getParamValue('yes') => $GLOBALS['TL_LANG']['MSC']['yes'],
-                        $this->getParamValue('no')  => $GLOBALS['TL_LANG']['MSC']['no']
+                        $this->getParamValue('yes') => $this->translator->trans('MSC.yes', [], 'contao_default'),
+                        $this->getParamValue('no')  => $this->translator->trans('MSC.no', [], 'contao_default')
                     ],
                     'eval'      => [
                         'includeBlankOption' => $this->get('blankoption')
@@ -183,13 +183,13 @@ class Checkbox extends SimpleLookup
                 1 => $this->getParamValue('no')
             ];
             $arrWidget['reference'] = [
-                $this->getParamValue('yes') => $GLOBALS['TL_LANG']['MSC']['yes'],
-                $this->getParamValue('no')  => $GLOBALS['TL_LANG']['MSC']['no']
+                $this->getParamValue('yes') => $this->translator->trans('MSC.yes', [], 'contao_default'),
+                $this->getParamValue('no')  => $this->translator->trans('MSC.no', [], 'contao_default')
             ];
         }
 
         if ($arrWidget['eval']['includeBlankOption']) {
-            $arrWidget['eval']['blankOptionLabel'] = $GLOBALS['TL_LANG']['metamodels_frontendfilter']['do_not_filter'];
+            $arrWidget['eval']['blankOptionLabel'] = $this->translator->trans('do_not_filter', [], 'metamodels_filter');
         }
 
         if ($this->get('ynmode') !== 'radio' && $this->get('option_label_param')) {
@@ -254,21 +254,23 @@ class Checkbox extends SimpleLookup
             [
                 ($this->get('label') ?: $objAttribute->getName()),
                 ($this->get('ynmode') === 'yes'
-                    ? $GLOBALS['TL_LANG']['MSC']['yes']
-                    : $GLOBALS['TL_LANG']['MSC']['no']
+                    ? $this->translator->trans('MSC.yes', [], 'contao_default')
+                    : $this->translator->trans('MSC.no', [], 'contao_default')
                 )
             ]
             :
             [
                 ($this->get('label') ?: $objAttribute->getName()),
                 ($this->get('ynmode') === 'yes'
-                    ? sprintf(
-                        $GLOBALS['TL_LANG']['MSC']['extended_yes'],
-                        ($this->get('label') ?: $objAttribute->getName())
+                    ? $this->translator->trans(
+                        'extended_yes',
+                        ['%attribute%' => ($this->get('label') ?: $objAttribute->getName())],
+                        'tl_metamodel_filtersetting'
                     )
-                    : sprintf(
-                        $GLOBALS['TL_LANG']['MSC']['extended_no'],
-                        ($this->get('label') ?: $objAttribute->getName())
+                    : $this->translator->trans(
+                        'extended_nos',
+                        ['%attribute%' => ($this->get('label') ?: $objAttribute->getName())],
+                        'tl_metamodel_filtersetting'
                     )
                 )
             ]
@@ -287,7 +289,9 @@ class Checkbox extends SimpleLookup
     private function getParamValue(string $value): string
     {
         if ($this->get('option_label_param')) {
-            return 'yes' === $value ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'];
+            return 'yes' === $value
+                ? $this->translator->trans('MSC.yes', [], 'contao_default')
+                : $this->translator->trans('MSC.no', [], 'contao_default');
         }
 
         return 'yes' === $value ? '1' : '-1';
