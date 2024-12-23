@@ -26,6 +26,7 @@
 
 namespace MetaModels\FilterCheckboxBundle\FilterSetting;
 
+use Contao\StringUtil;
 use MetaModels\Attribute\IAttribute;
 use MetaModels\Filter\IFilter;
 use MetaModels\Filter\Rules\SearchAttribute;
@@ -153,6 +154,7 @@ class Checkbox extends SimpleLookup
      *
      * @SuppressWarnings(PHPMD.Superglobals)
      * @SuppressWarnings(PHPMD.LongVariable)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function getParameterFilterWidgets(
         $arrIds,
@@ -164,6 +166,8 @@ class Checkbox extends SimpleLookup
         $objAttribute = $this->getMetaModel()->getAttributeById((int) $this->get('attr_id'));
         assert($objAttribute instanceof IAttribute);
 
+        $cssID = StringUtil::deserialize($this->get('cssID'), true);
+
         $arrWidget = [
             'label'     => $this->prepareLabel($objAttribute),
             'inputType' => ($this->get('ynmode') === 'radio' ? 'radio' : 'checkbox'),
@@ -173,6 +177,8 @@ class Checkbox extends SimpleLookup
                 'ynmode'             => $this->get('ynmode'),
                 'ynfield'            => $this->get('ynfield'),
                 'template'           => $this->get('template'),
+                'cssID'              => !empty($cssID[0]) ? ' id="' . $cssID[0] . '"' : '',
+                'class'              => !empty($cssID[1]) ? ' ' . $cssID[1] : '',
                 'includeBlankOption' => ($this->get('ynmode') === 'radio' && $this->get('blankoption') ? true : false),
             ]
         ];
