@@ -1,0 +1,54 @@
+<?xml version="1.0" ?><xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="src/Resources/translations/tl_metamodel_filtersetting.en.xlf" target-language="de">
+    <body>
+      <trans-unit id="typenames.checkbox" resname="typenames.checkbox">
+        <source>Yes/no</source>
+        <target>Ja / Nein</target>
+      </trans-unit>
+      <trans-unit id="ynfield.label" resname="ynfield.label">
+        <source>Yes/no instead of attribute name</source>
+        <target>&quot;Ja/Nein&quot; anstatt Attribut-Name</target>
+      </trans-unit>
+      <trans-unit id="ynfield.description" resname="ynfield.description">
+        <source>Show yes/no instead of attribute name and provide attribute name as a headline.</source>
+        <target>Zeige &quot;Ja/Nein&quot; anstelle des Attribut-Namens. Dieser Attribut-Name steht auch als Überschrift zur Verfügung.</target>
+      </trans-unit>
+      <trans-unit id="ynmode.label" resname="ynmode.label">
+        <source>Modus</source>
+        <target>Modus</target>
+      </trans-unit>
+      <trans-unit id="ynmode.description" resname="ynmode.description">
+        <source>Make yes/no selectable.</source>
+        <target>Mache ja/nein auswählbar.</target>
+      </trans-unit>
+      <trans-unit id="option_label_param.label" resname="option_label_param.label">
+        <source>Option label as parameter</source>
+        <target>Optionsbezeichnung als Parameter</target>
+      </trans-unit>
+      <trans-unit id="option_label_param.description" resname="option_label_param.description">
+        <source>If this checkbox set, the parameter value is the option label instead a number.</source>
+        <target>Wenn dieses Kontrollkästchen aktiviert ist, ist der Parameterwert die Bezeichnung der Option und nicht eine Zahl.</target>
+      </trans-unit>
+      <trans-unit id="ynmode.yes" resname="ynmode.yes">
+        <source>Checkbox yes</source>
+        <target>Ja-Checkbox</target>
+      </trans-unit>
+      <trans-unit id="ynmode.no" resname="ynmode.no">
+        <source>Checkbox no</source>
+        <target>Nein-Checkbox</target>
+      </trans-unit>
+      <trans-unit id="ynmode.radio" resname="ynmode.radio">
+        <source>Radio selection</source>
+        <target>Radio-Buttons</target>
+      </trans-unit>
+      <trans-unit id="extended_no" resname="extended_no">
+        <source>%attribute%: no</source>
+        <target>%attribute%: nein</target>
+      </trans-unit>
+      <trans-unit id="extended_yes" resname="extended_yes">
+        <source>%attribute%: yes</source>
+        <target>%attribute%: ja</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

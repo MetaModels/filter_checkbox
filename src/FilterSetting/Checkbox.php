@@ -3,7 +3,7 @@
 /**
  * This file is part of MetaModels/filter_checkbox.
  *
- * (c) 2012-2021 The MetaModels team.
+ * (c) 2012-2024 The MetaModels team.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -19,13 +19,14 @@
  * @author     Stefan Heimes <stefan_heimes@hotmail.com>
  * @author     Ingolf Steinhardt <info@e-spin.de>
  * @author     Richard Henkenjohann <richardhenkenjohann@googlemail.com>
- * @copyright  2012-2021 The MetaModels team.
+ * @copyright  2012-2024 The MetaModels team.
  * @license    https://github.com/MetaModels/filter_checkbox/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
 
 namespace MetaModels\FilterCheckboxBundle\FilterSetting;
 
+use Contao\StringUtil;
 use MetaModels\Attribute\IAttribute;
 use MetaModels\Filter\IFilter;
 use MetaModels\Filter\Rules\SearchAttribute;
@@ -35,7 +36,7 @@ use MetaModels\FrontendIntegration\FrontendFilterOptions;
 use MetaModels\IMetaModel;
 
 /**
- * Filter "checkbox" for FE-filtering, based on filters by the meta models team.
+ * Filter "checkbox" for FE-filtering, based on filters by the MetaModels team.
  */
 class Checkbox extends SimpleLookup
 {
@@ -45,26 +46,31 @@ class Checkbox extends SimpleLookup
     public function prepareRules(IFilter $objFilter, $arrFilterUrl)
     {
         $objMetaModel = $this->getMetaModel();
-        $arrLanguages = $this->getAvailableLanguages($objMetaModel);
-        $objAttribute = $objMetaModel->getAttributeById($this->get('attr_id'));
+        $arrLanguages = $this->getAvailableLanguages($objMetaModel) ?? [];
+        $objAttribute = $objMetaModel->getAttributeById((int) $this->get('attr_id'));
 
         $strParamName = $this->getParamName();
+        assert(\is_string($strParamName));
 
         // If is a checkbox defined as "no", 1 has to become -1 like with radio fields.
         if (isset($arrFilterUrl[$strParamName])) {
             $arrFilterUrl[$strParamName] =
-                ($arrFilterUrl[$strParamName] == '1' && $this->get('ynmode') == 'no'
+                ($arrFilterUrl[$strParamName] === '1' && $this->get('ynmode') === 'no'
                     ? '-1'
-                    : $arrFilterUrl[$strParamName]);
+                    : (string) $arrFilterUrl[$strParamName]);
         }
 
         if ($objAttribute && $strParamName && !empty($arrFilterUrl[$strParamName])) {
             // Param -1 has to be '' meaning 'really empty'.
-            $arrFilterUrl[$strParamName] = ($arrFilterUrl[$strParamName] == $this->getParamValue(
+            $arrFilterUrl[$strParamName] = ($arrFilterUrl[$strParamName] === $this->getParamValue(
                 'no'
-            ) ? '' : ($arrFilterUrl[$strParamName] == $this->getParamValue('yes') ? '1' : ''));
+            ) ? '' : ($arrFilterUrl[$strParamName] === $this->getParamValue('yes') ? '1' : ''));
 
-            $objFilterRule = new SearchAttribute($objAttribute, $arrFilterUrl[$strParamName], $arrLanguages);
+            $objFilterRule = new SearchAttribute(
+                $objAttribute,
+                $arrFilterUrl[$strParamName],
+                \array_values(\array_filter($arrLanguages))
+            );
             $objFilter->addFilterRule($objFilterRule);
 
             return;
@@ -86,13 +92,14 @@ class Checkbox extends SimpleLookup
             return [];
         }
 
-        $objAttribute = $this->getMetaModel()->getAttributeById($this->get('attr_id'));
+        $strParamName = $this->getParamName();
+        assert(\is_string($strParamName));
 
-        if ($this->get('ynmode') == 'radio') {
+        if ($this->get('ynmode') === 'radio') {
             return [
-                $this->getParamName() => [
+                $strParamName => [
                     'label'     => [
-                        ($this->get('label') ? $this->get('label') : $objAttribute->getName()),
+                        $this->getLabel(),
                         'GET: ' . $this->get('urlparam')
                     ],
                     'inputType' => 'radio',
@@ -101,8 +108,8 @@ class Checkbox extends SimpleLookup
                         $this->getParamValue('no')  => $this->getParamValue('no')
                     ],
                     'reference' => [
-                        $this->getParamValue('yes') => $GLOBALS['TL_LANG']['MSC']['yes'],
-                        $this->getParamValue('no')  => $GLOBALS['TL_LANG']['MSC']['no']
+                        $this->getParamValue('yes') => $this->translator->trans('MSC.yes', [], 'contao_default'),
+                        $this->getParamValue('no')  => $this->translator->trans('MSC.no', [], 'contao_default')
                     ],
                     'eval'      => [
                         'includeBlankOption' => $this->get('blankoption')
@@ -112,9 +119,9 @@ class Checkbox extends SimpleLookup
         }
 
         return [
-            $this->getParamName() => [
+            $strParamName => [
                 'label'     => [
-                    ($this->get('label') ? $this->get('label') : $objAttribute->getName()),
+                    $this->getLabel(),
                     'GET: ' . $this->get('urlparam')
                 ],
                 'inputType' => 'checkbox'
@@ -146,6 +153,8 @@ class Checkbox extends SimpleLookup
      * {@inheritdoc}
      *
      * @SuppressWarnings(PHPMD.Superglobals)
+     * @SuppressWarnings(PHPMD.LongVariable)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function getParameterFilterWidgets(
         $arrIds,
@@ -154,44 +163,52 @@ class Checkbox extends SimpleLookup
         FrontendFilterOptions $objFrontendFilterOptions
     ) {
 
-        $objAttribute = $this->getMetaModel()->getAttributeById($this->get('attr_id'));
+        $objAttribute = $this->getMetaModel()->getAttributeById((int) $this->get('attr_id'));
+        assert($objAttribute instanceof IAttribute);
+
+        $cssID = StringUtil::deserialize($this->get('cssID'), true);
 
         $arrWidget = [
             'label'     => $this->prepareLabel($objAttribute),
-            'inputType' => ($this->get('ynmode') == 'radio' ? 'radio' : 'checkbox'),
+            'inputType' => ($this->get('ynmode') === 'radio' ? 'radio' : 'checkbox'),
             'eval'      => [
                 'colname'            => $objAttribute->getColName(),
                 'urlparam'           => $this->getParamName(),
                 'ynmode'             => $this->get('ynmode'),
                 'ynfield'            => $this->get('ynfield'),
                 'template'           => $this->get('template'),
-                'includeBlankOption' => ($this->get('ynmode') == 'radio' && $this->get('blankoption') ? true : false),
+                'cssID'              => !empty($cssID[0]) ? ' id="' . $cssID[0] . '"' : '',
+                'class'              => !empty($cssID[1]) ? ' ' . $cssID[1] : '',
+                'includeBlankOption' => ($this->get('ynmode') === 'radio' && $this->get('blankoption') ? true : false),
             ]
         ];
 
-        if ($this->get('ynmode') == 'radio') {
+        if ($this->get('ynmode') === 'radio') {
             $arrWidget['options']   = [
                 0 => $this->getParamValue('yes'),
                 1 => $this->getParamValue('no')
             ];
             $arrWidget['reference'] = [
-                $this->getParamValue('yes') => $GLOBALS['TL_LANG']['MSC']['yes'],
-                $this->getParamValue('no')  => $GLOBALS['TL_LANG']['MSC']['no']
+                $this->getParamValue('yes') => $this->translator->trans('MSC.yes', [], 'contao_default'),
+                $this->getParamValue('no')  => $this->translator->trans('MSC.no', [], 'contao_default')
             ];
         }
 
         if ($arrWidget['eval']['includeBlankOption']) {
-            $arrWidget['eval']['blankOptionLabel'] = $GLOBALS['TL_LANG']['metamodels_frontendfilter']['do_not_filter'];
+            $arrWidget['eval']['blankOptionLabel'] = $this->translator->trans('do_not_filter', [], 'metamodels_filter');
         }
 
-        if ($this->get('ynmode') != 'radio' && $this->get('option_label_param')) {
+        if ($this->get('ynmode') !== 'radio' && $this->get('option_label_param')) {
             $arrWidget['options'] = [$this->getParamValue($this->get('ynmode')) => $arrWidget['label'][1]];
         }
 
         $this->addFilterParam();
 
+        $strParamName = $this->getParamName();
+        assert(\is_string($strParamName));
+
         return [
-            $this->getParamName() => $this->prepareFrontendFilterWidget(
+            $strParamName => $this->prepareFrontendFilterWidget(
                 $arrWidget,
                 $arrFilterUrl,
                 $arrJumpTo,
@@ -221,6 +238,7 @@ class Checkbox extends SimpleLookup
      */
     private function getAvailableLanguages(IMetaModel $objMetaModel)
     {
+        /** @psalm-suppress DeprecatedMethod */
         return ($objMetaModel->isTranslated() && $this->get('all_langs'))
             ? $objMetaModel->getAvailableLanguages()
             : [$objMetaModel->getActiveLanguage()];
@@ -237,26 +255,28 @@ class Checkbox extends SimpleLookup
      */
     private function prepareLabel(IAttribute $objAttribute)
     {
-        return ($this->get('ynmode') == 'radio' || $this->get('ynfield')
+        return ($this->get('ynmode') === 'radio' || $this->get('ynfield')
             ?
             [
                 ($this->get('label') ?: $objAttribute->getName()),
-                ($this->get('ynmode') == 'yes'
-                    ? $GLOBALS['TL_LANG']['MSC']['yes']
-                    : $GLOBALS['TL_LANG']['MSC']['no']
+                ($this->get('ynmode') === 'yes'
+                    ? $this->translator->trans('MSC.yes', [], 'contao_default')
+                    : $this->translator->trans('MSC.no', [], 'contao_default')
                 )
             ]
             :
             [
                 ($this->get('label') ?: $objAttribute->getName()),
-                ($this->get('ynmode') == 'yes'
-                    ? sprintf(
-                        $GLOBALS['TL_LANG']['MSC']['extended_yes'],
-                        ($this->get('label') ?: $objAttribute->getName())
+                ($this->get('ynmode') === 'yes'
+                    ? $this->translator->trans(
+                        'extended_yes',
+                        ['%attribute%' => ($this->get('label') ?: $objAttribute->getName())],
+                        'tl_metamodel_filtersetting'
                     )
-                    : sprintf(
-                        $GLOBALS['TL_LANG']['MSC']['extended_no'],
-                        ($this->get('label') ?: $objAttribute->getName())
+                    : $this->translator->trans(
+                        'extended_nos',
+                        ['%attribute%' => ($this->get('label') ?: $objAttribute->getName())],
+                        'tl_metamodel_filtersetting'
                     )
                 )
             ]
@@ -268,14 +288,16 @@ class Checkbox extends SimpleLookup
      *
      * @param string $value The value.
      *
-     * @return mixed|string
+     * @return string
      *
      * @SuppressWarnings(PHPMD.Superglobals)
      */
     private function getParamValue(string $value): string
     {
         if ($this->get('option_label_param')) {
-            return 'yes' === $value ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'];
+            return 'yes' === $value
+                ? $this->translator->trans('MSC.yes', [], 'contao_default')
+                : $this->translator->trans('MSC.no', [], 'contao_default');
         }
 
         return 'yes' === $value ? '1' : '-1';
